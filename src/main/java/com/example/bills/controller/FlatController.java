@@ -1,5 +1,6 @@
 package com.example.bills.controller;
 
+import com.example.bills.dto.FlatDto;
 import com.example.bills.model.Flat;
 import com.example.bills.service.FlatService;
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ public class FlatController {
 
     @PostMapping("/flats")
     @ResponseStatus(HttpStatus.CREATED)
-    Flat addFlat(@RequestBody @Valid Flat flat) {
-        return flatService.addFlat(flat);
+    Flat addFlat(@RequestBody @Valid FlatDto flatDto) {
+        return flatService.addFlat(flatDto);
     }
 }
