@@ -14,3 +14,6 @@
 *.log
 /logs/
 /build/
+
+# Database Secrets
+src/main/resources/application-local.properties
