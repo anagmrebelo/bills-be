@@ -1,14 +1,16 @@
+/.idea/
+
 # Default ignored files
 /shelf/
 /workspace.xml
 
 # Maven
-target/
+/target/
 
 # IntelliJ IDEA
-.idea/
+/.idea/
 
 # Spring Boot
 *.log
-logs/
-build/
+/logs/
+/build/
