@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Getter
 public class Flatmate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
