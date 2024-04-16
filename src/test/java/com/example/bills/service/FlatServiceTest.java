@@ -40,8 +40,7 @@ class FlatServiceTest {
         flatOne = new Flat("Gran Via");
         flatTwo = new Flat("Sagrada");
 
-        flatOne = flatRepository.save(flatOne);
-        flatTwo = flatRepository.save(flatTwo);
+        flatRepository.saveAll(List.of(flatOne, flatTwo));
     }
 
     @AfterEach
@@ -56,7 +55,6 @@ class FlatServiceTest {
         assertEquals(2, flatsResult.size());
         assertTrue(flatsResult.contains(flatOne));
         assertTrue(flatsResult.contains(flatTwo));
-        //assertTrue(flatsResult.getFirst().equals(flatTwo));
     }
 
     @Test
