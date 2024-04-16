@@ -1,5 +1,6 @@
 package com.example.bills.model;
 
+import com.example.bills.dto.FlatDto;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,6 +28,10 @@ public class Flat {
 
     public Flat(String name) {
         this.name = name;
+    }
+
+    public Flat(FlatDto flatDto) {
+        this.name = flatDto.getName();
     }
 
     public Flat(String name, List<Flatmate> flatmateList) {

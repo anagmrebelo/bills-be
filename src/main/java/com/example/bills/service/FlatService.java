@@ -24,7 +24,7 @@ public class FlatService {
     }
 
     public Flat addFlat(FlatDto flatDto) {
-        Flat flat = new Flat(flatDto.getName());
+        Flat flat = new Flat(flatDto);
         return flatRepository.save(flat);
     }
 }
