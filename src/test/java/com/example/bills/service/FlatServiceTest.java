@@ -31,8 +31,8 @@ class FlatServiceTest {
 
     @BeforeEach
     void setUp() {
-        Flatmate flatmate = new Flatmate(1);
-        flatmate = flatmateRespository.save(flatmate);
+        //Flatmate flatmate = new Flatmate(1);
+        //flatmate = flatmateRespository.save(flatmate);
 
         flatOne = new Flat("Gran Via");
         flatTwo = new Flat("Sagrada");
