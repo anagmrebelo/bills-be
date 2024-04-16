@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -86,7 +85,7 @@ class FlatControllerTest {
 
     @Test
     void getNonExistentFlat() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/flats/" + 100))
+        mockMvc.perform(get("/flats/" + 100))
                 .andExpect(status().isNotFound())
                 .andReturn();
     }
