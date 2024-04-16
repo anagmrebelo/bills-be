@@ -1,5 +1,6 @@
 package com.example.bills.service;
 
+import com.example.bills.dto.FlatDto;
 import com.example.bills.model.Flat;
 import com.example.bills.repository.FlatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FlatService {
@@ -23,7 +23,8 @@ public class FlatService {
         return flatRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Flat not found"));
     }
 
-    public Flat addFlat(Flat flat) {
+    public Flat addFlat(FlatDto flatDto) {
+        Flat flat = new Flat(flatDto.getName());
         return flatRepository.save(flat);
     }
 }
