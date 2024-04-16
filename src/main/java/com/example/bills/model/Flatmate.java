@@ -23,6 +23,11 @@ public class Flatmate {
     @JoinColumn(name = "flat")
     private Flat flat;
 
+    public Flatmate(String name, Flat flat) {
+        this.name = name;
+        this.flat = flat;
+    }
+
     public Flatmate(FlatmateDto flatmateDto) {
         this.name = flatmateDto.getName();
         this.flat = flatmateDto.getFlat();
