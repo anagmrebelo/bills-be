@@ -36,7 +36,7 @@ public class FlatmateController {
 
     @PatchMapping("/flatmates/{id}")
     @ResponseStatus(HttpStatus.OK)
-    Flatmate patchFlatmate(@PathVariable(name = "id") int id, @PathVariable @Valid FlatmateNameDto flatmateNameDto) {
+    Flatmate patchFlatmate(@PathVariable(name = "id") int id, @RequestBody @Valid FlatmateNameDto flatmateNameDto) {
         return flatmateService.patchFlatmate(id, flatmateNameDto);
     }
 }

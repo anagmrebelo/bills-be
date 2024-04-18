@@ -1,6 +1,7 @@
 package com.example.bills.controller;
 
 import com.example.bills.dto.FlatmateDto;
+import com.example.bills.dto.FlatmateNameDto;
 import com.example.bills.model.Flat;
 import com.example.bills.model.Flatmate;
 import com.example.bills.repository.FlatRepository;
@@ -21,10 +22,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -117,6 +116,21 @@ class FlatmateControllerTest {
     }
 
     @Test
-    void patchFlatmate() {
+    void patchFlatmate() throws Exception {
+        String patchedName = "Patched Name";
+        FlatmateNameDto flatmateNameDto = new FlatmateNameDto(patchedName);
+
+        String body = objectMapper.writeValueAsString(flatmateNameDto);
+        MvcResult mvcResult = mockMvc.perform(patch("/flatmates/" + flatmateOne.getId())
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Flatmate flatmateResult = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Flatmate.class);
+
+        assertEquals(patchedName, flatmateResult.getName());
+
     }
+
 }
