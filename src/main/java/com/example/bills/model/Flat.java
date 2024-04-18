@@ -1,6 +1,8 @@
 package com.example.bills.model;
 
 import com.example.bills.dto.FlatDto;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,6 +15,7 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @Getter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Flat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id

@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -111,8 +112,11 @@ class FlatmateControllerTest {
 
         assertEquals(name, flatmateResult.getName());
         assertEquals(flat, flatmateResult.getFlat());
-        //assertNotNull(flat.getFlatmateList());
-        //assertTrue(flat.getFlatmateList().contains(flatmateResult));
+
+        Optional<Flat> dbFlat = flatRepository.findById(flat.getId());
+        assertTrue(dbFlat.isPresent());
+        assertNotNull(dbFlat.get().getFlatmateList());
+        assertTrue(dbFlat.get().getFlatmateList().contains(flatmateResult));
     }
 
     @Test

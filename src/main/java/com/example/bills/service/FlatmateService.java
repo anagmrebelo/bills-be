@@ -35,7 +35,7 @@ public class FlatmateService {
         Flatmate flatmate = new Flatmate(flatmateDto);
         Flatmate dbFlatmate = flatmateRepository.save(flatmate);
 
-        //flatService.addFlatmate(flat, dbFlatmate);
+        flatService.addFlatmate(flat, dbFlatmate);
 
         return dbFlatmate;
     }
