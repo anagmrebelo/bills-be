@@ -18,7 +18,7 @@ public class FlatmateService {
     @Autowired
     FlatmateRepository flatmateRepository;
     @Autowired
-    FlatRepository flatRepository;
+    FlatService flatService;
 
     public List<Flatmate> getAllFlatmates() {
         return flatmateRepository.findAll();
@@ -30,13 +30,14 @@ public class FlatmateService {
 
     public Flatmate addFlatmate(FlatmateDto flatmateDto) {
         Flat flat = flatmateDto.getFlat();
-        flatRepository.findById(flat.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flat not found"));
+        flatService.getFlat(flat.getId());
 
         Flatmate flatmate = new Flatmate(flatmateDto);
-        System.out.println(flatmate);
-        // TO-DO: Add flatmate to flat
+        Flatmate dbFlatmate = flatmateRepository.save(flatmate);
 
-        return flatmateRepository.save(flatmate);
+        flatService.addFlatmate(flat, dbFlatmate);
+
+        return dbFlatmate;
     }
 
     public Flatmate patchFlatmate(int id, FlatmateNameDto flatmateNameDto) {

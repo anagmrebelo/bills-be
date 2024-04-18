@@ -63,7 +63,7 @@ class FlatControllerTest {
                 new TypeReference<List<Flat>>() {}
         );
 
-        assertEquals(flatRepository.findAll().size(), flats.size());
+        assertEquals(2, flats.size());
         assertTrue(flats.contains(flatOne));
         assertTrue(flats.contains(flatTwo));
     }
