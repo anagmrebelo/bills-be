@@ -68,10 +68,12 @@ class FlatmateServiceTest {
     @Test
     void addFlatmate() {
         FlatmateDto flatmateDto = new FlatmateDto("Johana", flat);
-        Flatmate createdFlat = flatmateService.addFlatmate(flatmateDto);
+        Flatmate createdFlatmate = flatmateService.addFlatmate(flatmateDto);
 
-        assertEquals("Johana", createdFlat.getName());
-        assertEquals(flat, createdFlat.getFlat());
+        assertEquals("Johana", createdFlatmate.getName());
+        assertEquals(flat, createdFlatmate.getFlat());
+        assertNotNull(flat.getFlatmateList());
+        assertTrue(flat.getFlatmateList().contains(createdFlatmate));
     }
 
     @Test
