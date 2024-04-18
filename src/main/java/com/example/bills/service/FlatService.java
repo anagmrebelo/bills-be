@@ -2,6 +2,7 @@ package com.example.bills.service;
 
 import com.example.bills.dto.FlatDto;
 import com.example.bills.model.Flat;
+import com.example.bills.model.Flatmate;
 import com.example.bills.repository.FlatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,5 +27,10 @@ public class FlatService {
     public Flat addFlat(FlatDto flatDto) {
         Flat flat = new Flat(flatDto);
         return flatRepository.save(flat);
+    }
+
+    public void addFlatmate(Flat flat, Flatmate flatmate) {
+        flat.addFlatmate(flatmate);
+        flatRepository.save(flat);
     }
 }

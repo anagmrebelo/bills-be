@@ -51,4 +51,13 @@ public class Flat {
     public int hashCode() {
         return Objects.hash(id, name);//, flatmateList);
     }
+
+    // Methods
+    public void addFlatmate(Flatmate flatmate) {
+        if (getFlatmateList() == null) {
+            flatmateList = List.of(flatmate);
+        } else {
+            getFlatmateList().add(flatmate);
+        }
+    }
 }
