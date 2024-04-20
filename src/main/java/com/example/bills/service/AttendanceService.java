@@ -1,11 +1,9 @@
 package com.example.bills.service;
 
 import com.example.bills.model.Attendance;
-import com.example.bills.model.AttendanceId;
 import com.example.bills.model.Flat;
 import com.example.bills.model.Flatmate;
 import com.example.bills.repository.AttendanceRepository;
-import com.example.bills.repository.FlatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,10 +30,9 @@ public class AttendanceService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid month");
         }
         Month month = Month.of(monthInt);
-        flatmateService.getFlatmate(flatmateId);
+        Flatmate flatmate = flatmateService.getFlatmate(flatmateId);
 
-        AttendanceId attendanceId = new AttendanceId(flatmateId, month);
-        Optional<Attendance> attendance = attendanceRepository.findByAttendanceId(attendanceId);
+        Optional<Attendance> attendance = attendanceRepository.findByMonthAndFlatmate(month, flatmate);
         return attendance.map(List::of).orElseGet(ArrayList::new);
     }
 
@@ -49,7 +46,7 @@ public class AttendanceService {
 
         List<Attendance> attendances = new ArrayList<>();
         for (Flatmate flatmate : flatmates) {
-            List<Attendance> flatmateAttendance = getAttendanceByFlatAndMonth(flatmate.getId(), monthInt);
+            List<Attendance> flatmateAttendance = getAttendanceByFlatmateAndMonth(flatmate.getId(), monthInt);
             if (flatmateAttendance.size() == 1) {
                 attendances.add(flatmateAttendance.getFirst());
             }
@@ -59,7 +56,7 @@ public class AttendanceService {
     }
 
     public Attendance addAttendance(Attendance attendance) {
-        flatmateService.getFlatmate(attendance.getAttendanceId().getFlatmateId());
+        flatmateService.getFlatmate(attendance.getFlatmate().getId());
         return attendanceRepository.save(attendance);
     }
 }
