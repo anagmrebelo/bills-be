@@ -59,6 +59,7 @@ public class AttendanceService {
     }
 
     public Attendance addAttendance(Attendance attendance) {
+        flatmateService.getFlatmate(attendance.getAttendanceId().getFlatmateId());
         return attendanceRepository.save(attendance);
     }
 }
