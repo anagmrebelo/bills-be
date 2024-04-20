@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.math.BigDecimal;
+
 @NoArgsConstructor
 @EqualsAndHashCode
 @Getter
@@ -26,5 +28,5 @@ public class Debt {
 
     @NonNull
     @Digits(integer = 6, fraction = 2)
-    private float amount;
+    private BigDecimal amount;
 }
