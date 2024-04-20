@@ -2,6 +2,7 @@ package com.example.bills.controller;
 
 import com.example.bills.model.Attendance;
 import com.example.bills.service.AttendanceService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class AttendanceController {
 
     @PostMapping("/attendance")
     @ResponseStatus(HttpStatus.CREATED)
-    Attendance addAttendance(@RequestBody Attendance attendance) {
+    Attendance addAttendance(@RequestBody @Valid Attendance attendance) {
         return attendanceService.addAttendance(attendance);
     }
 }
