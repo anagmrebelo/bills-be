@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @Getter
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "flatmate", "bill" }) })
 public class Debt {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -20,13 +21,21 @@ public class Debt {
 
     @NonNull
     @ManyToOne
+    @JoinColumn(name = "flatmate")
     private Flatmate flatmate;
 
     @NonNull
     @ManyToOne
+    @JoinColumn(name = "bill")
     private Bill bill;
 
     @NonNull
     @Digits(integer = 6, fraction = 2)
     private BigDecimal amount;
+
+    public Debt(@NonNull Flatmate flatmate, @NonNull Bill bill, @NonNull BigDecimal amount) {
+        this.flatmate = flatmate;
+        this.bill = bill;
+        this.amount = amount;
+    }
 }
