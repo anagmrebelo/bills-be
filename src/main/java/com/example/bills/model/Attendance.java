@@ -1,18 +1,37 @@
 package com.example.bills.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+
+import java.time.Month;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
+@EqualsAndHashCode
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "flatmate", "attendance_month" }) })
 public class Attendance {
-    @EmbeddedId
-    private AttendanceId attendanceId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    private int id;
+
+    @ManyToOne
+    @NonNull
+    @JoinColumn(name = "flatmate")
+    private Flatmate flatmate;
+
+    @NonNull
+    @Column(name = "attendance_month")
+    private Month month;
+
     @NonNull
     private Boolean wasPresent;
+
+    public Attendance(@NonNull Flatmate flatmate, @NonNull Month month, @NonNull Boolean wasPresent) {
+        this.flatmate = flatmate;
+        this.month = month;
+        this.wasPresent = wasPresent;
+    }
 }
