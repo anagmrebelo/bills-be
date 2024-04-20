@@ -2,7 +2,6 @@ package com.example.bills.service;
 
 import com.example.bills.model.Bill;
 import com.example.bills.model.Debt;
-import com.example.bills.model.Flat;
 import com.example.bills.model.Flatmate;
 import com.example.bills.repository.BillRepository;
 import com.example.bills.repository.DebtRepository;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DebtService {
