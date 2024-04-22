@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
+import java.time.Month;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -60,10 +61,10 @@ class DebtControllerTest {
         flatmate = new Flatmate("Rita", flat);
         flatmate = flatmateRepository.save(flatmate);
 
-        billOne = new Bill();
+        billOne = new Bill(new BigDecimal("80.23"), flat, Month.of(1));
         billOne = billRepository.save(billOne);
 
-        Bill billTwo = new Bill();
+        Bill billTwo = new Bill(new BigDecimal("100.50"), flat, Month.of(2));
         billTwo = billRepository.save(billTwo);
 
         debtOne = new Debt(flatmate, billOne, new BigDecimal("12.23"));
