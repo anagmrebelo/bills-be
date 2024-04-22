@@ -1,6 +1,6 @@
 package com.example.bills.service;
 
-import com.example.bills.model.Bill;
+import com.example.bills.model.bill.Bill;
 import com.example.bills.model.Debt;
 import com.example.bills.model.Flatmate;
 import com.example.bills.repository.BillRepository;
