@@ -1,7 +1,6 @@
 package com.example.bills.model.bill;
 
 import com.example.bills.model.Flat;
-import com.example.bills.model.utils.BillType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import lombok.*;
@@ -14,7 +13,6 @@ import java.time.Month;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "bill_type")
-@DiscriminatorValue("other")
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "flat", "bill_month", "bill_type" }) })
@@ -23,15 +21,14 @@ public class Bill {
     @Id
     private int id;
     @NonNull
-    @Digits(integer = 6, fraction = 2)
-    private BigDecimal amount;
+    @Digits(integer = 6, fraction = 2) BigDecimal amount;
     @NonNull
     @ManyToOne
     @JoinColumn(name = "flat")
-    private Flat flat;
+    Flat flat;
     @NonNull
     @Column(name = "bill_month")
-    private Month month;
+    Month month;
 
     public Bill(@NonNull BigDecimal amount, @NonNull Flat flat, @NonNull Month month) {
         this.amount = amount;
