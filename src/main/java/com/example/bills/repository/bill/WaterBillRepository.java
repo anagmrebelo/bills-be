@@ -1,4 +1,4 @@
-package com.example.bills.repository;
+package com.example.bills.repository.bill;
 
 import com.example.bills.model.bill.WaterBill;
 import org.springframework.data.jpa.repository.JpaRepository;

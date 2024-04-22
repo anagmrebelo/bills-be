@@ -3,7 +3,7 @@ package com.example.bills.service;
 import com.example.bills.model.bill.Bill;
 import com.example.bills.model.Debt;
 import com.example.bills.model.Flatmate;
-import com.example.bills.repository.BillRepository;
+import com.example.bills.repository.bill.BillRepository;
 import com.example.bills.repository.DebtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
