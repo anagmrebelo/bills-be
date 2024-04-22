@@ -4,7 +4,7 @@ import com.example.bills.model.bill.Bill;
 import com.example.bills.model.Debt;
 import com.example.bills.model.Flat;
 import com.example.bills.model.Flatmate;
-import com.example.bills.repository.BillRepository;
+import com.example.bills.repository.bill.BillRepository;
 import com.example.bills.repository.DebtRepository;
 import com.example.bills.repository.FlatRepository;
 import com.example.bills.repository.FlatmateRepository;
