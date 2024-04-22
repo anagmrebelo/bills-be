@@ -4,6 +4,6 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("water")
-public class WaterBill extends Bill {
+@DiscriminatorValue("gas")
+public class GasBill extends Bill {
 }
