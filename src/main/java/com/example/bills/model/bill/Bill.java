@@ -35,4 +35,8 @@ public class Bill {
         this.flat = flat;
         this.month = month;
     }
+
+    public String getType() {
+        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
+    }
 }

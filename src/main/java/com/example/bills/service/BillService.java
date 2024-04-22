@@ -4,11 +4,11 @@ import com.example.bills.dto.BillDto;
 import com.example.bills.model.Flat;
 import com.example.bills.model.bill.*;
 import com.example.bills.repository.bill.*;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class BillService {
             case "gas" -> addGasBill(billDto);
             case "telco" -> addTelcoBill(billDto);
             default ->
-                    throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Bill Type not supported; Types available: water, electricity, gas, telco");
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bill Type not supported; Types available: water, electricity, gas, telco");
         };
     }
 
