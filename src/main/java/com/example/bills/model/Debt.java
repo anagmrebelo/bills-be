@@ -1,5 +1,6 @@
 package com.example.bills.model;
 
+import com.example.bills.model.bill.Bill;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import lombok.EqualsAndHashCode;

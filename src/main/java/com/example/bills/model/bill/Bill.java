@@ -1,5 +1,6 @@
-package com.example.bills.model;
+package com.example.bills.model.bill;
 
+import com.example.bills.model.Flat;
 import com.example.bills.model.utils.BillType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;

@@ -1,6 +1,6 @@
 package com.example.bills.controller;
 
-import com.example.bills.model.Bill;
+import com.example.bills.model.bill.Bill;
 import com.example.bills.model.Debt;
 import com.example.bills.model.Flat;
 import com.example.bills.model.Flatmate;

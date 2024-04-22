@@ -1,6 +1,6 @@
 package com.example.bills.repository;
 
-import com.example.bills.model.Bill;
+import com.example.bills.model.bill.Bill;
 import com.example.bills.model.Debt;
 import com.example.bills.model.Flatmate;
 import org.springframework.data.jpa.repository.JpaRepository;
