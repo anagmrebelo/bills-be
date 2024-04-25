@@ -124,8 +124,8 @@ class BillServiceTest {
 
     @Test
     void deleteBill() {
-        billService.deleteBill(flatOne.getId());
-        Optional<Bill> bill = billRepository.findById(flatOne.getId());
+        billService.deleteBill(billOne.getId());
+        Optional<Bill> bill = billRepository.findById(billOne.getId());
         assertFalse(bill.isPresent());
     }
 }
