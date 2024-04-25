@@ -3,8 +3,10 @@ package com.example.bills.model.bill;
 import com.example.bills.dto.BillDto;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 @DiscriminatorValue("gas")
 public class GasBill extends Bill {
     public GasBill(BillDto billDto) {
