@@ -59,7 +59,7 @@ public class BillService {
         if (bill.isPresent()) {
             billRepository.deleteById(id);
         } else {
-            throw new HttpClientErrorException(HttpStatus.NO_CONTENT, "Id not valid");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Id not valid");
         }
     }
 

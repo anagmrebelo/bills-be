@@ -1,6 +1,7 @@
 package com.example.bills.model.bill;
 
 import com.example.bills.model.Flat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import lombok.*;
@@ -36,6 +37,7 @@ public class Bill {
         this.month = month;
     }
 
+    @JsonIgnore
     public String getType() {
         return this.getClass().getAnnotation(DiscriminatorValue.class).value();
     }
