@@ -46,19 +46,21 @@ spring.datasource.password=your_mysql_password
 
 Here is a general overview of the controllers and routes in this project:
 
-| Route | HTTP Method | Controller | Action | Description |
-|-------|-------------|------------|--------|-------------|
-| `/flats` | GET | FlatController | `getAllFlats` | Returns a list of all flats |
-| `/flats/{id}` | GET | FlatController | `getFlat` | Returns a specific flat by its ID |
-| `/flats` | POST | FlatController | `createFlat` | Creates a new flat |
-| `/flats/{id}` | PUT | FlatController | `updateFlat` | Updates a specific flat |
-| `/flats/{id}` | DELETE | FlatController | `deleteFlat` | Deletes a specific flat |
-| `/bills` | GET | BillController | `getAllBills` | Returns a list of all bills |
-| `/bills/{id}` | GET | BillController | `getBill` | Returns a specific bill by its ID |
-| `/bills` | POST | BillController | `createBill` | Creates a new bill |
-| `/bills/{id}` | PUT | BillController | `updateBill` | Updates a specific bill |
-| `/bills/{id}` | DELETE | BillController | `deleteBill` | Deletes a specific bill |
-
+| Route               | HTTP Method | Controller | Action | Description                                                           |
+|---------------------|-------------|------------|--------|-----------------------------------------------------------------------|
+| `/flats`            | GET         | FlatController | `getAllFlats` | Returns a list of all flats                                           |
+| `/flats/{id}`       | GET         | FlatController | `getFlat` | Returns a specific flat by its ID                                     |
+| `/flats`            | POST        | FlatController | `createFlat` | Creates a new flat                                                    |
+| `/flatmates`        | GET         | FlatmateController | `getAllFlatmates` | Returns a list of all flatmates                                       |
+| `/flatmates/{id}`   | GET         | FlatmateController | `getFlatmate` | Returns a specific flatmate by its ID                                 |
+| `/flatmates`        | POST        | FlatmateController | `createFlatmate` | Creates a new flatmate                                                |
+| `/flatmates/{id}`   | PATCH       | FlatmateController | `updateFlatmate` | Updates a specific flatmate                                           |
+| `/attendance`       | GET         | AttendanceController | `getAllAttendance` | Returns attendances for a flat or flatmate in a specific month        |
+| `/attendance`       | POST        | AttendanceController | `createAttendance` | Creates a new attendance record for a flatmate in a specicif month    |
+| `/bills/{flatId}`   | GET         | BillController | `getBill` | Returns all the bills for a specific flat                             |
+| `/bills/{billType}` | POST         | BillController | `updateBill` | Creates a new bill for a flat for a specifi month                     |
+| `/bills/{id}`       | DELETE      | BillController | `deleteBill` | Deletes a specific bill                                               |
+| `/debt`             | GET         | DebtController | `getDebts` | Returns a flatmate list of debts for all bills or for a specific bill |
 Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` while the server is running
 
 ## Extra links
