@@ -10,7 +10,7 @@ Bills can be added to the flat on a monthly basis. Each bill is then split among
 
 
 ## Class Diagram
-(Include the class diagram here. You can use a tool like draw.io to create the diagram and then include the image in the README)
+![Screenshot 2024-04-25 at 21.28.25.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2Fvar%2Ffolders%2Fp4%2Fh3zt4zpx5sj581hs8fzy5q540000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_Zx1DMw%2FScreenshot%202024-04-25%20at%2021.28.25.png)
 
 ## Setup
 1. Clone the repository:
@@ -24,7 +24,6 @@ git clone https://github.com/your-username/your-repo-name.git
 ```
 CREATE DATABASE your_database_name;
 ```
-
 5. In the project directory, you will find a file named `application-local-example.properties`. Rename this file to `application-local.properties`. 
 6. Open `application-local.properties` and replace the placeholders with your actual MySQL credentials and database name:
 ```
@@ -41,7 +40,6 @@ spring.datasource.password=your_mysql_password
 - MySQL
 - springdoc-openapi
 
-## Controllers and Routes structure
 ## Controllers and Routes structure
 
 Here is a general overview of the controllers and routes in this project:
@@ -63,9 +61,12 @@ Here is a general overview of the controllers and routes in this project:
 | `/debt`             | GET         | DebtController | `getDebts` | Returns a flatmate list of debts for all bills or for a specific bill |
 Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` while the server is running
 
+## Some API Rules
+[TBC]
+
 ## Extra links
 - [Project Board](https://www.baeldung.com/spring-rest-openapi-documentation)
-- [Presentation Slides](URL_TO_PRESENTATION_SLIDES)
+- [Presentation Slides](https://docs.google.com/presentation/d/1YKqz5Z_ZntngEx5qRdVJki83M1JWwcLPSXYrx4s30Sw/edit?usp=sharing)
 
 ## Future Work
 Check [project board](https://github.com/users/anagmrebelo/projects/10/views/1) extra column to know future implementations on the pipeline
