@@ -42,7 +42,22 @@ spring.datasource.password=your_mysql_password
 - springdoc-openapi
 
 ## Controllers and Routes structure
-(Describe the structure of your controllers and routes here. You can include a table with the route, HTTP method, and a brief description of what the route does)
+## Controllers and Routes structure
+
+Here is a general overview of the controllers and routes in this project:
+
+| Route | HTTP Method | Controller | Action | Description |
+|-------|-------------|------------|--------|-------------|
+| `/flats` | GET | FlatController | `getAllFlats` | Returns a list of all flats |
+| `/flats/{id}` | GET | FlatController | `getFlat` | Returns a specific flat by its ID |
+| `/flats` | POST | FlatController | `createFlat` | Creates a new flat |
+| `/flats/{id}` | PUT | FlatController | `updateFlat` | Updates a specific flat |
+| `/flats/{id}` | DELETE | FlatController | `deleteFlat` | Deletes a specific flat |
+| `/bills` | GET | BillController | `getAllBills` | Returns a list of all bills |
+| `/bills/{id}` | GET | BillController | `getBill` | Returns a specific bill by its ID |
+| `/bills` | POST | BillController | `createBill` | Creates a new bill |
+| `/bills/{id}` | PUT | BillController | `updateBill` | Updates a specific bill |
+| `/bills/{id}` | DELETE | BillController | `deleteBill` | Deletes a specific bill |
 
 Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` while the server is running
 
