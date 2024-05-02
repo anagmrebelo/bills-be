@@ -64,6 +64,8 @@ class DebtServiceTest {
         debtRepository.flush();
         billRepository.deleteAll();
         billRepository.flush();
+        //attendanceRepository.deleteAll();
+        //attendanceRepository.flush();
         flatmateRepository.deleteAll();
         flatmateRepository.flush();
         flatRepository.deleteAll();

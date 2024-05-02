@@ -74,14 +74,16 @@ class BillControllerTest {
 
     @AfterEach
     void tearDown() {
-        /*debtRepository.deleteAll();
+        debtRepository.deleteAll();
         debtRepository.flush();
         billRepository.deleteAll();
         billRepository.flush();
+        attendanceRepository.deleteAll();
+        attendanceRepository.flush();
         flatmateRepository.deleteAll();
         flatmateRepository.flush();
         flatRepository.deleteAll();
-        flatRepository.flush();*/
+        flatRepository.flush();
     }
 
     @Test

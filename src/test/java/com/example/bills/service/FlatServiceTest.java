@@ -22,18 +22,12 @@ class FlatServiceTest {
     @Autowired
     FlatRepository flatRepository;
     @Autowired
-    FlatmateRepository flatmateRespository;
-    @Autowired
     FlatService flatService;
-
     private Flat flatOne;
     private Flat flatTwo;
 
     @BeforeEach
     void setUp() {
-        //Flatmate flatmate = new Flatmate(1);
-        //flatmate = flatmateRespository.save(flatmate);
-
         flatOne = new Flat("Gran Via");
         flatTwo = new Flat("Sagrada");
 
@@ -42,6 +36,14 @@ class FlatServiceTest {
 
     @AfterEach
     void tearDown() {
+        //debtRepository.deleteAll();
+        //debtRepository.flush();
+        //billRepository.deleteAll();
+        //billRepository.flush();
+        //attendanceRepository.deleteAll();
+        //attendanceRepository.flush();
+        //flatmateRepository.deleteAll();
+        //flatmateRepository.flush();
         flatRepository.deleteAll();
         flatRepository.flush();
     }
