@@ -13,4 +13,6 @@ public interface DebtRepository extends JpaRepository<Debt, Integer> {
     List<Debt> findByBillAndFlatmate(Bill bill, Flatmate flatmate);
 
     List<Debt> findAllByFlatmate(Flatmate flatmate);
+
+    void deleteAllByBill(Bill bill);
 }

@@ -64,6 +64,8 @@ class DebtServiceTest {
         debtRepository.flush();
         billRepository.deleteAll();
         billRepository.flush();
+        //attendanceRepository.deleteAll();
+        //attendanceRepository.flush();
         flatmateRepository.deleteAll();
         flatmateRepository.flush();
         flatRepository.deleteAll();
@@ -78,7 +80,6 @@ class DebtServiceTest {
         assertTrue(debts.contains(debtOne));
     }
 
-    @Disabled
     @Test
     void getDebtByInvalidBillAndFlatmate() {
         int invalidBillId = 100;
@@ -115,16 +116,10 @@ class DebtServiceTest {
 
         assertEquals(debt, createdDebt);
     }
+
     @Test
     void addInvalidFlatmateDebt() {
         Debt debt = new Debt(new Flatmate(13, "Pere", flat), billOne, new BigDecimal("1.23"));
-        assertThrows(ResponseStatusException.class, () -> debtService.addDebt(debt));
-    }
-
-    @Disabled
-    @Test
-    void addInvalidBillDebt() {
-        Debt debt = new Debt(flatmate, new Bill(), new BigDecimal("1.23"));
         assertThrows(ResponseStatusException.class, () -> debtService.addDebt(debt));
     }
 }

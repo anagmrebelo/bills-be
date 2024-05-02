@@ -92,6 +92,7 @@ public class BillService {
     public void deleteBill(int id) {
         Optional<Bill> bill = billRepository.findById(id);
         if (bill.isPresent()) {
+            debtService.deleteByBill(bill.get());
             billRepository.deleteById(id);
         } else {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Id not valid");

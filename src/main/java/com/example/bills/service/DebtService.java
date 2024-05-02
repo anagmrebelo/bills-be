@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DebtService {
@@ -35,5 +36,9 @@ public class DebtService {
     public List<Debt> getDebtByFlatmate(int flatmateId) {
         Flatmate flatmate = flatmateService.getFlatmate(flatmateId);
         return debtRepository.findAllByFlatmate(flatmate);
+    }
+
+    public void deleteByBill(Bill bill) {
+        debtRepository.deleteAllByBill(bill);
     }
 }
