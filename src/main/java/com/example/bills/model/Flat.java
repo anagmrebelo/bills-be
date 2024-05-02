@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,10 +58,11 @@ public class Flat {
 
     // Methods
     public void addFlatmate(Flatmate flatmate) {
-        if (getFlatmateList() == null) {
-            flatmateList = List.of(flatmate);
+        if (flatmateList == null) {
+            flatmateList = new ArrayList<>();
+            flatmateList.add(flatmate);
         } else {
-            getFlatmateList().add(flatmate);
+            flatmateList.add(flatmate);
         }
     }
 }

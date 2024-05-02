@@ -83,7 +83,6 @@ class DebtControllerTest {
         flatRepository.flush();
     }
 
-    @Disabled
     @Test
     void getDebtByInvalidBillAndFlatmate() throws Exception {
         int invalidBillId = 100;

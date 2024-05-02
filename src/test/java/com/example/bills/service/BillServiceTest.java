@@ -1,17 +1,22 @@
 package com.example.bills.service;
 
 import com.example.bills.dto.BillDto;
+import com.example.bills.model.Attendance;
 import com.example.bills.model.Flat;
+import com.example.bills.model.Flatmate;
 import com.example.bills.model.bill.Bill;
 import com.example.bills.model.bill.ElectricityBill;
 import com.example.bills.model.bill.WaterBill;
 import com.example.bills.repository.FlatRepository;
+import com.example.bills.repository.FlatmateRepository;
 import com.example.bills.repository.bill.BillRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,6 +26,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 class BillServiceTest {
     @Autowired
@@ -29,6 +37,10 @@ class BillServiceTest {
     BillRepository billRepository;
     @Autowired
     FlatRepository flatRepository;
+    @Autowired
+    FlatService flatService;
+    @Autowired
+    FlatmateRepository flatmateRepository;
     private Flat flatOne;
     private Flat flatTwo;
     private Bill billOne;
@@ -127,5 +139,23 @@ class BillServiceTest {
         billService.deleteBill(billOne.getId());
         Optional<Bill> bill = billRepository.findById(billOne.getId());
         assertFalse(bill.isPresent());
+    }
+
+    @Test
+    void addBillToEmptyFlat() {
+        BillDto billDto = new BillDto(new BigDecimal("100.23"), flatTwo, Month.MARCH);
+
+        assertThrows(ResponseStatusException.class, () -> billService.validateFlatmatesAttendances(flatOne, billDto));
+    }
+
+    @Test
+    void addBillToIncompleteAttendances() {
+        BillDto billDto = new BillDto(new BigDecimal("100.23"), flatTwo, Month.MARCH);
+
+        Flatmate flatmateOne = new Flatmate("Ana", flatTwo);
+        flatmateRepository.save(flatmateOne);
+        flatService.addFlatmate(flatTwo, flatmateOne);
+
+        assertThrows(ResponseStatusException.class, () -> billService.validateFlatmatesAttendances(flatOne, billDto));
     }
 }
