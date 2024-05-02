@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,10 @@ public class Flat {
     @Nullable
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "flatmates")
-    List<Flatmate> flatmateList;
+    private List<Flatmate> flatmateList;
+
+    @NonNull
+    private boolean isFinished;
 
     public Flat(String name) {
         this.name = name;
@@ -36,11 +40,13 @@ public class Flat {
 
     public Flat(FlatDto flatDto) {
         this.name = flatDto.getName();
+        this.isFinished = false;
     }
 
     public Flat(String name, List<Flatmate> flatmateList) {
         this.name = name;
         this.flatmateList = flatmateList;
+        isFinished = false;
     }
 
     @Override
@@ -64,5 +70,9 @@ public class Flat {
         } else {
             flatmateList.add(flatmate);
         }
+    }
+
+    public void closeFlat() {
+        isFinished = true;
     }
 }
