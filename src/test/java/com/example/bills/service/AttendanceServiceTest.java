@@ -62,8 +62,6 @@ class AttendanceServiceTest {
     void tearDown() {
         attendanceRepository.deleteAll();
         attendanceRepository.flush();
-        flatmateRepository.deleteAll();
-        flatmateRepository.flush();
         flatRepository.deleteAll();
         flatRepository.flush();
     }

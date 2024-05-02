@@ -26,7 +26,7 @@ public class Flat {
     private String name;
 
     @Nullable
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "flatmates")
     List<Flatmate> flatmateList;
 

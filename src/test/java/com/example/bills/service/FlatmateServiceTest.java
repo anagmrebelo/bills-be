@@ -40,10 +40,8 @@ class FlatmateServiceTest {
 
     @AfterEach
     void tearDown() {
-        flatmateRepository.deleteAll();
         flatRepository.deleteAll();
         flatRepository.flush();
-        flatmateRepository.flush();
     }
 
     @Test

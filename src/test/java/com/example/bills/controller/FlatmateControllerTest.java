@@ -55,9 +55,6 @@ class FlatmateControllerTest {
 
     @AfterEach
     void tearDown() {
-        flatmateRepository.deleteAll();
-        flatmateRepository.flush();
-
         flatRepository.deleteAll();
         flatRepository.flush();
     }
