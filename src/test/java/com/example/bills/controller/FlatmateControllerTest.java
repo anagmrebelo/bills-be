@@ -92,7 +92,8 @@ class FlatmateControllerTest {
 
     @Test
     void getInvalidFlatmate() throws Exception {
-        mockMvc.perform(get("/flatmates/" + 100))
+        int invalidFlatmateId = 100;
+        mockMvc.perform(get("/flatmates/" + invalidFlatmateId))
                 .andExpect(status().isNotFound())
                 .andReturn();
     }
