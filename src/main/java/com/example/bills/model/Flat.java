@@ -32,22 +32,22 @@ public class Flat {
     @JoinColumn(name = "flatmates")
     private List<Flatmate> flatmateList;
 
-    private boolean finished;
+    private boolean closed;
 
     public Flat(String name) {
         this.name = name;
-        this.finished = false;
+        this.closed = false;
     }
 
     public Flat(FlatDto flatDto) {
         this.name = flatDto.getName();
-        this.finished = false;
+        this.closed = false;
     }
 
     public Flat(String name, List<Flatmate> flatmateList) {
         this.name = name;
         this.flatmateList = flatmateList;
-        finished = false;
+        closed = false;
     }
 
     @Override
@@ -55,12 +55,12 @@ public class Flat {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flat flat = (Flat) o;
-        return id == flat.id && finished == flat.finished && Objects.equals(name, flat.name);
+        return id == flat.id && closed == flat.closed && Objects.equals(name, flat.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, finished);
+        return Objects.hash(id, name, closed);
     }
 
     // Methods
@@ -74,6 +74,6 @@ public class Flat {
     }
 
     public void closeFlat() {
-        finished = true;
+        closed = true;
     }
 }

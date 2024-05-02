@@ -43,7 +43,7 @@ public class FlatmateService {
     }
 
     private void validateFlatmateCreation(Flat flat) {
-        if (flat.isFinished()) {
+        if (flat.isClosed()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot add flatmates after inserting bills");
         }
     }
