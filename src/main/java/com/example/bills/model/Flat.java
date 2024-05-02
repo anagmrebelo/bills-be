@@ -2,6 +2,7 @@ package com.example.bills.model;
 
 import com.example.bills.dto.FlatDto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -31,22 +32,22 @@ public class Flat {
     @JoinColumn(name = "flatmates")
     private List<Flatmate> flatmateList;
 
-    @NonNull
-    private boolean isFinished;
+    private boolean finished;
 
     public Flat(String name) {
         this.name = name;
+        this.finished = false;
     }
 
     public Flat(FlatDto flatDto) {
         this.name = flatDto.getName();
-        this.isFinished = false;
+        this.finished = false;
     }
 
     public Flat(String name, List<Flatmate> flatmateList) {
         this.name = name;
         this.flatmateList = flatmateList;
-        isFinished = false;
+        finished = false;
     }
 
     @Override
@@ -54,12 +55,12 @@ public class Flat {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flat flat = (Flat) o;
-        return id == flat.id && Objects.equals(name, flat.name); //&& Objects.equals(flatmateList, flat.flatmateList);
+        return id == flat.id && finished == flat.finished && Objects.equals(name, flat.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);//, flatmateList);
+        return Objects.hash(id, name, finished);
     }
 
     // Methods
@@ -73,6 +74,6 @@ public class Flat {
     }
 
     public void closeFlat() {
-        isFinished = true;
+        finished = true;
     }
 }
