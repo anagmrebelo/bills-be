@@ -15,11 +15,11 @@ public class Balance {
     }
 
     public BigDecimal getBalance() {
-       // List<Debt> debts = debtService.getDebtByFlatmate(this.flatmate.getId());
+        List<Debt> debts = debtService.getDebtByFlatmate(this.flatmate.getId());
         BigDecimal totalDebt = new BigDecimal("0");
-      /*  for (Debt debt : debts) {
+        for (Debt debt : debts) {
             totalDebt = totalDebt.add(debt.getAmount());
-        }*/
+        }
 
         return totalDebt;
     }

@@ -35,8 +35,6 @@ class BalanceControllerTest {
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
-    DebtService debtService;
-    @Autowired
     DebtRepository debtRepository;
     @Autowired
     FlatRepository flatRepository;
