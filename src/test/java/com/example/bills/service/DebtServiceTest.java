@@ -60,8 +60,6 @@ class DebtServiceTest {
 
     @AfterEach
     void tearDown() {
-        debtRepository.deleteAll();
-        debtRepository.flush();
         billRepository.deleteAll();
         billRepository.flush();
         flatmateRepository.deleteAll();

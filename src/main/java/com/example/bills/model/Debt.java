@@ -26,8 +26,7 @@ public class Debt {
     private Flatmate flatmate;
 
     @NonNull
-    @ManyToOne
-//    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bill")
     private Bill bill;
 
