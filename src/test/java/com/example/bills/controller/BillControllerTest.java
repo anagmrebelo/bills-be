@@ -1,13 +1,19 @@
 package com.example.bills.controller;
 
 import com.example.bills.dto.BillDto;
+import com.example.bills.model.Attendance;
 import com.example.bills.model.Flat;
+import com.example.bills.model.Flatmate;
 import com.example.bills.model.bill.Bill;
 import com.example.bills.model.bill.ElectricityBill;
 import com.example.bills.model.bill.WaterBill;
+import com.example.bills.repository.AttendanceRepository;
+import com.example.bills.repository.DebtRepository;
 import com.example.bills.repository.FlatRepository;
+import com.example.bills.repository.FlatmateRepository;
 import com.example.bills.repository.bill.BillRepository;
 import com.example.bills.service.BillService;
+import com.example.bills.service.FlatService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -41,6 +47,14 @@ class BillControllerTest {
     BillRepository billRepository;
     @Autowired
     FlatRepository flatRepository;
+    @Autowired
+    FlatService flatService;
+    @Autowired
+    FlatmateRepository flatmateRepository;
+    @Autowired
+    AttendanceRepository attendanceRepository;
+    @Autowired
+    DebtRepository debtRepository;
     private Flat flatOne;
     private Flat flatTwo;
     private Bill billOne;
@@ -52,7 +66,6 @@ class BillControllerTest {
         flatOne = new Flat("Gran Via");
         flatTwo = new Flat("Sagrada");
         flatRepository.saveAll(List.of(flatOne, flatTwo));
-
         billOne = new WaterBill(new BillDto(new BigDecimal("10.23"), flatOne, Month.JANUARY));
         billTwo = new ElectricityBill(new BillDto(new BigDecimal("15.23"), flatOne, Month.JANUARY));
         Bill billThree = new WaterBill(new BillDto(new BigDecimal("50.23"), flatTwo, Month.FEBRUARY));
@@ -61,14 +74,76 @@ class BillControllerTest {
 
     @AfterEach
     void tearDown() {
+        /*debtRepository.deleteAll();
+        debtRepository.flush();
         billRepository.deleteAll();
         billRepository.flush();
+        flatmateRepository.deleteAll();
+        flatmateRepository.flush();
+        flatRepository.deleteAll();
+        flatRepository.flush();*/
     }
 
     @Test
-    void addBill() throws Exception {
-        BigDecimal bigDecimal = new BigDecimal("100.23");
+    void addBillToEmptyFlat() throws Exception {
         Month month =  Month.MARCH;
+        BigDecimal bigDecimal = new BigDecimal("100.23");
+        BillDto billDto = new BillDto(bigDecimal, flatTwo, month);
+
+        String body = objectMapper.writeValueAsString(billDto);
+        MvcResult mvcResult = mockMvc.perform(post("/bills/water")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    void addBillToIncompleteAttendances() throws Exception {
+        Month month =  Month.MARCH;
+
+        Flatmate flatmateOne = new Flatmate("Ana", flatTwo);
+        Flatmate flatmateTwo = new Flatmate("Pedro", flatTwo);
+        flatmateRepository.saveAll(List.of(flatmateOne, flatmateTwo));
+        flatService.addFlatmate(flatTwo, flatmateOne);
+        flatService.addFlatmate(flatTwo, flatmateTwo);
+
+        Attendance attendanceOne = new Attendance(flatmateOne, month, true);
+        attendanceRepository.save(attendanceOne);
+
+        BigDecimal bigDecimal = new BigDecimal("100.23");
+        BillDto billDto = new BillDto(bigDecimal, flatTwo, month);
+
+        String body = objectMapper.writeValueAsString(billDto);
+        MvcResult mvcResult = mockMvc.perform(post("/bills/water")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+
+
+    @Test
+    void addBill() throws Exception {
+        Month month =  Month.MARCH;
+
+        Flatmate flatmateOne = new Flatmate("Ana", flatTwo);
+        Flatmate flatmateTwo = new Flatmate("Pedro", flatTwo);
+        Flatmate flatmateThree = new Flatmate("Rita", flatTwo);
+        flatmateRepository.saveAll(List.of(flatmateOne, flatmateTwo, flatmateThree));
+        flatService.addFlatmate(flatTwo, flatmateOne);
+        flatService.addFlatmate(flatTwo, flatmateTwo);
+        flatService.addFlatmate(flatTwo, flatmateThree);
+
+        Attendance attendanceOne = new Attendance(flatmateOne, month, true);
+        attendanceRepository.save(attendanceOne);
+        Attendance attendanceTwo = new Attendance(flatmateTwo, month, true);
+        attendanceRepository.save(attendanceTwo);
+        Attendance attendanceThree = new Attendance(flatmateThree, month, false);
+        attendanceRepository.save(attendanceThree);
+
+        BigDecimal bigDecimal = new BigDecimal("100.23");
         BillDto billDto = new BillDto(bigDecimal, flatTwo, month);
 
         String body = objectMapper.writeValueAsString(billDto);
@@ -82,6 +157,9 @@ class BillControllerTest {
 
         assertEquals(bigDecimal, bill.getAmount());
         assertEquals(month, bill.getMonth());
+        assertEquals(1, debtRepository.findAllByFlatmate(flatmateOne).size());
+        assertEquals(1, debtRepository.findAllByFlatmate(flatmateTwo).size());
+        assertEquals(0, debtRepository.findAllByFlatmate(flatmateThree).size());
     }
 
     @Test
