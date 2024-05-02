@@ -32,12 +32,20 @@ public class FlatmateService {
         Flat flat = flatmateDto.getFlat();
         flatService.getFlat(flat.getId());
 
+        validateFlatmateCreation(flat);
+
         Flatmate flatmate = new Flatmate(flatmateDto);
         Flatmate dbFlatmate = flatmateRepository.save(flatmate);
 
         flatService.addFlatmate(flat, dbFlatmate);
 
         return dbFlatmate;
+    }
+
+    private void validateFlatmateCreation(Flat flat) {
+        if (flat.isClosed()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot add flatmates after inserting bills");
+        }
     }
 
     public Flatmate patchFlatmate(int id, FlatmateNameDto flatmateNameDto) {

@@ -4,8 +4,10 @@ import com.example.bills.dto.FlatmateDto;
 import com.example.bills.dto.FlatmateNameDto;
 import com.example.bills.model.Flat;
 import com.example.bills.model.Flatmate;
+import com.example.bills.model.bill.Bill;
 import com.example.bills.repository.FlatRepository;
 import com.example.bills.repository.FlatmateRepository;
+import com.example.bills.repository.bill.BillRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+import java.time.Month;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +28,8 @@ class FlatmateServiceTest {
     FlatmateRepository flatmateRepository;
     @Autowired
     FlatRepository flatRepository;
+    @Autowired
+    FlatService flatService;
     Flatmate flatmateOne;
     Flatmate flatmateTwo;
     Flat flat;
@@ -80,6 +86,14 @@ class FlatmateServiceTest {
         assertEquals(flat, createdFlatmate.getFlat());
         assertNotNull(flat.getFlatmateList());
         assertTrue(flat.getFlatmateList().contains(createdFlatmate));
+    }
+
+    @Test
+    void addFlatmateToFlatWithBills() {
+        flat.closeFlat();
+        FlatmateDto flatmateDto = new FlatmateDto("Johana", flat);
+
+        assertThrows(ResponseStatusException.class, () -> flatmateService.addFlatmate(flatmateDto));
     }
 
     @Test

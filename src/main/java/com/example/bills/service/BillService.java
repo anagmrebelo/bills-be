@@ -45,7 +45,10 @@ public class BillService {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bill Type not supported; Types available: water, electricity, gas, telco");
         };
 
+        flat.closeFlat();
+
         addDebts(createdBill);
+
         return createdBill;
     }
 
