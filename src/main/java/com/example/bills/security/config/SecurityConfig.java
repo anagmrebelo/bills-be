@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,6 +25,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Autowired
     private AuthenticationManagerBuilder authManagerBuilder;
 
@@ -46,13 +50,11 @@ public class SecurityConfig {
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/api/login/**").permitAll()
                 .requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_USER")
-                .requestMatchers(POST, "api/users").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(POST, "/api/users").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated());
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-
 }
