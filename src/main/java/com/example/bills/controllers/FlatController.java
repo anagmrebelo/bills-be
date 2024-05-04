@@ -2,10 +2,14 @@ package com.example.bills.controllers;
 
 import com.example.bills.dtos.FlatDto;
 import com.example.bills.models.Flat;
+import com.example.bills.security.models.User;
+import com.example.bills.security.services.UserService;
 import com.example.bills.services.FlatService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +18,8 @@ import java.util.List;
 public class FlatController {
     @Autowired
     FlatService flatService;
+    @Autowired
+    UserService userService;
     @GetMapping("/flats")
     @ResponseStatus(HttpStatus.OK)
     List<Flat> getAllFlats() {
@@ -29,6 +35,8 @@ public class FlatController {
     @PostMapping("/flats")
     @ResponseStatus(HttpStatus.CREATED)
     Flat addFlat(@RequestBody @Valid FlatDto flatDto) {
-        return flatService.addFlat(flatDto);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUser(userDetails.getUsername());
+        return flatService.addFlat(flatDto, user);
     }
 }
