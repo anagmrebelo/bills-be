@@ -37,16 +37,16 @@ public class UserService {
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
         }
     }
-    User saveUser(User user) {
+    public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    Role saveRole(Role role) {
+    public Role saveRole(Role role) {
         return roleRepository.save(role);
     }
 
-    void addRoleToUser(String username, String roleName) {
+    public void addRoleToUser(String username, String roleName) {
         User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
 
@@ -55,11 +55,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    User getUser(String username) {
+    public User getUser(String username) {
         return userRepository.findByUsername(username);
     }
 
-    List<User> getUsers() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 }
