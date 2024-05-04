@@ -1,7 +1,7 @@
-package com.example.bills.controllers;
+package com.example.bills.security.controllers;
 
-import com.example.bills.models.User;
-import com.example.bills.services.UserService;
+import com.example.bills.security.models.User;
+import com.example.bills.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

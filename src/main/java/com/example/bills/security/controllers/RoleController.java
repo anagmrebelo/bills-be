@@ -1,8 +1,8 @@
-package com.example.bills.controllers;
+package com.example.bills.security.controllers;
 
-import com.example.bills.dtos.RoleToUserDto;
-import com.example.bills.models.Role;
-import com.example.bills.services.UserService;
+import com.example.bills.security.dtos.RoleToUserDto;
+import com.example.bills.security.models.Role;
+import com.example.bills.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

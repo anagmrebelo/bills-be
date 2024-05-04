@@ -1,4 +1,4 @@
-package com.example.bills.dtos;
+package com.example.bills.security.dtos;
 
 import lombok.Getter;
 

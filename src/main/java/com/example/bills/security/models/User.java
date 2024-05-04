@@ -1,4 +1,4 @@
-package com.example.bills.models;
+package com.example.bills.security.models;
 
 import jakarta.persistence.*;
 import lombok.Data;

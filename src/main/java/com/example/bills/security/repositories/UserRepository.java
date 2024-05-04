@@ -1,6 +1,6 @@
-package com.example.bills.repositories;
+package com.example.bills.security.repositories;
 
-import com.example.bills.models.User;
+import com.example.bills.security.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,9 @@
-package com.example.bills.services;
+package com.example.bills.security.services;
 
-import com.example.bills.models.Role;
-import com.example.bills.models.User;
-import com.example.bills.repositories.RoleRepository;
-import com.example.bills.repositories.UserRepository;
+import com.example.bills.security.models.Role;
+import com.example.bills.security.models.User;
+import com.example.bills.security.repositories.RoleRepository;
+import com.example.bills.security.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
