@@ -35,9 +35,14 @@ public class FlatController {
     @PostMapping("/flats")
     @ResponseStatus(HttpStatus.CREATED)
     Flat addFlat(@RequestBody @Valid FlatDto flatDto) {
-        //String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUser(userDetails.getUsername());
+        User user = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails userDetails) {
+            user = userService.getUser(userDetails.getUsername());
+        } else {
+            user = userService.getUser((String) principal);
+        }
+
         return flatService.addFlat(flatDto, user);
     }
 }
