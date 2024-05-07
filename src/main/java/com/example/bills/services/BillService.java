@@ -7,6 +7,7 @@ import com.example.bills.models.Flat;
 import com.example.bills.models.Flatmate;
 import com.example.bills.models.bill.*;
 import com.example.bills.repositories.bill.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,7 @@ public class BillService {
         return billRepository.save(telcoBill);
     }
 
+    @Transactional
     public void deleteBill(int id) {
         Optional<Bill> bill = billRepository.findById(id);
         if (bill.isPresent()) {
