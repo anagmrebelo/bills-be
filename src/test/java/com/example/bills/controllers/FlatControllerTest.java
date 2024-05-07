@@ -3,6 +3,7 @@ package com.example.bills.controllers;
 import com.example.bills.dtos.FlatDto;
 import com.example.bills.models.Flat;
 import com.example.bills.repositories.FlatRepository;
+import com.example.bills.security.repositories.UserRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -31,6 +32,8 @@ class FlatControllerTest {
     WebApplicationContext webApplicationContext;
     @Autowired
     FlatRepository flatRepository;
+    @Autowired
+    UserRepository userRepository;
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private Flat flatOne;
@@ -48,6 +51,8 @@ class FlatControllerTest {
 
     @AfterEach
     void tearDown() {
+        userRepository.deleteAll();
+        userRepository.flush();
         //debtRepository.deleteAll();
         //debtRepository.flush();
         //billRepository.deleteAll();
@@ -100,7 +105,7 @@ class FlatControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser(username = "james")
     void addFlat() throws Exception {
         FlatDto flatDto = new FlatDto("Born");
         String body = objectMapper.writeValueAsString(flatDto);
