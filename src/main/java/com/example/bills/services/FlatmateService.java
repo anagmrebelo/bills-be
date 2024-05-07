@@ -34,11 +34,7 @@ public class FlatmateService {
         validateFlatmateCreation(flat);
 
         Flatmate flatmate = new Flatmate(flatmateDto);
-        Flatmate dbFlatmate = flatmateRepository.save(flatmate);
-
-        flatService.addFlatmate(flat, dbFlatmate);
-
-        return dbFlatmate;
+        return flatmateRepository.save(flatmate);
     }
 
     private void validateFlatmateCreation(Flat flat) {
@@ -52,5 +48,9 @@ public class FlatmateService {
 
         flatmate.setName(flatmateNameDto.getName());
         return flatmateRepository.save(flatmate);
+    }
+
+    public List<Flatmate> getFlatmatesByFlatId(int id) {
+        return flatmateRepository.findAllByFlatId(id);
     }
 }

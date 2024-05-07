@@ -80,8 +80,6 @@ class FlatmateServiceTest {
 
         assertEquals("Johana", createdFlatmate.getName());
         assertEquals(flat, createdFlatmate.getFlat());
-        assertNotNull(flat.getFlatmateList());
-        assertTrue(flat.getFlatmateList().contains(createdFlatmate));
     }
 
     @Test

@@ -40,12 +40,10 @@ class AttendanceServiceTest {
 
         flatmateOne = new Flatmate(new FlatmateDto("Pedro", flat));
         flatmateOne = flatmateRepository.save(flatmateOne);
-        flat.addFlatmate(flatmateOne);
         flat = flatRepository.save(flat);
 
         Flatmate flatmateTwo = new Flatmate(new FlatmateDto("Cris", flat));
         flatmateTwo = flatmateRepository.save(flatmateTwo);
-        flat.addFlatmate(flatmateTwo);
         flat = flatRepository.save(flat);
 
         attendanceFlatmateOneJan = new Attendance(flatmateOne,Month.of(1),true);

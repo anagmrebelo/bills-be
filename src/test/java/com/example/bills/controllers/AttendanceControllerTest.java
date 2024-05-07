@@ -56,12 +56,10 @@ class AttendanceControllerTest {
 
         flatmateOne = new Flatmate(new FlatmateDto("Pedro", flat));
         flatmateOne = flatmateRepository.save(flatmateOne);
-        flat.addFlatmate(flatmateOne);
         flat = flatRepository.save(flat);
 
         Flatmate flatmateTwo = new Flatmate(new FlatmateDto("Cris", flat));
         flatmateTwo = flatmateRepository.save(flatmateTwo);
-        flat.addFlatmate(flatmateTwo);
         flat = flatRepository.save(flat);
 
         attendanceFlatmateOneJan = new Attendance(flatmateOne, Month.of(1),true);
@@ -97,7 +95,7 @@ class AttendanceControllerTest {
     @Test
     void getAttendanceByFlatmateInvalidMonth() throws Exception {
         int invalidMonth = 13;
-        MvcResult mvcResult = mockMvc.perform(get("/attendance")
+        MvcResult mvcResult = mockMvc.perform(get("/attendances")
                 .param("month", String.valueOf(invalidMonth))
                 .param("flatmate", String.valueOf(flatmateOne.getId())))
                 .andExpect(status().isBadRequest())
@@ -106,7 +104,7 @@ class AttendanceControllerTest {
 
     @Test
     void getAttendanceByFlatmate() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/attendance")
+        MvcResult mvcResult = mockMvc.perform(get("/attendances")
                 .param("month", "1")
                 .param("flatmate", String.valueOf(flatmateOne.getId())))
                 .andExpect(status().isOk())
@@ -124,7 +122,7 @@ class AttendanceControllerTest {
     @Test
     void getAttendanceByFlatInvalidFlat() throws Exception {
         int invalidFlatId = 100;
-        MvcResult mvcResult = mockMvc.perform(get("/attendance")
+        MvcResult mvcResult = mockMvc.perform(get("/attendances")
                         .param("month", "1")
                         .param("flat", String.valueOf(invalidFlatId)))
                 .andExpect(status().isNotFound())
@@ -134,7 +132,7 @@ class AttendanceControllerTest {
     @Test
     void getAttendanceByFlatInvalidMonth() throws Exception {
         int invalidMonth = 13;
-        MvcResult mvcResult = mockMvc.perform(get("/attendance")
+        MvcResult mvcResult = mockMvc.perform(get("/attendances")
                         .param("month", String.valueOf(invalidMonth))
                         .param("flat", String.valueOf(flat.getId())))
                 .andExpect(status().isBadRequest())
@@ -143,7 +141,7 @@ class AttendanceControllerTest {
 
     @Test
     void getAttendanceByFlat() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/attendance")
+        MvcResult mvcResult = mockMvc.perform(get("/attendances")
                         .param("month", "1")
                         .param("flat", String.valueOf(flat.getId())))
                 .andExpect(status().isOk())
@@ -161,7 +159,7 @@ class AttendanceControllerTest {
 
     @Test
     void getAttendancePriority() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/attendance")
+        MvcResult mvcResult = mockMvc.perform(get("/attendances")
                         .param("month", "1")
                         .param("flat", String.valueOf(flat.getId()))
                         .param("flatmate", String.valueOf(flatmateOne.getId())))
@@ -184,7 +182,7 @@ class AttendanceControllerTest {
         Attendance attendance = new Attendance(new Flatmate("test", flat), month, true);
         String body = objectMapper.writeValueAsString(attendance);
 
-        MvcResult mvcResult = mockMvc.perform(get("/attendance")
+        MvcResult mvcResult = mockMvc.perform(get("/attendances")
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
@@ -197,7 +195,7 @@ class AttendanceControllerTest {
         Attendance attendance = new Attendance(flatmateOne, month, true);
         String body = objectMapper.writeValueAsString(attendance);
 
-        MvcResult mvcResult = mockMvc.perform(post("/attendance")
+        MvcResult mvcResult = mockMvc.perform(post("/attendances")
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())

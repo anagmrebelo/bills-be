@@ -38,7 +38,7 @@ public class AttendanceService {
 
     public List<Attendance> getAttendanceByFlatAndMonth(Integer flatId, Integer monthInt) {
         Flat flat = flatService.getFlat(flatId);
-        List<Flatmate> flatmates = flat.getFlatmateList();
+        List<Flatmate> flatmates = flatmateService.getFlatmatesByFlatId(flatId);
 
         if (flatmates == null) {
             return List.of();

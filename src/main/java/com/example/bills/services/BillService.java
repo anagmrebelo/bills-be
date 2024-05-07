@@ -4,6 +4,7 @@ import com.example.bills.dtos.BillDto;
 import com.example.bills.models.Attendance;
 import com.example.bills.models.Debt;
 import com.example.bills.models.Flat;
+import com.example.bills.models.Flatmate;
 import com.example.bills.models.bill.*;
 import com.example.bills.repositories.bill.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +53,11 @@ public class BillService {
     }
 
     void validateFlatmatesAttendances(Flat flat, BillDto billDto) {
-        if (flat.getFlatmateList() == null || flat.getFlatmateList().isEmpty()) {
+        List<Flatmate> flatmates = flatmateService.getFlatmatesByFlatId(flat.getId());
+        if (flatmates.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You need to add flatmates before adding bills");
         }
-        if (attendanceService.getAttendanceByFlatAndMonth(flat.getId(), billDto.getMonth().getValue()).size() != flat.getFlatmateList().size()) {
+        if (attendanceService.getAttendanceByFlatAndMonth(flat.getId(), billDto.getMonth().getValue()).size() != flatmates.size()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Add attendances for all flatmates before adding bills");
         }
     }

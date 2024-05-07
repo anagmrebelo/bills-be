@@ -40,9 +40,4 @@ public class FlatService {
 
         return createdFlat;
     }
-
-    public void addFlatmate(Flat flat, Flatmate flatmate) {
-        flat.addFlatmate(flatmate);
-        flatRepository.save(flat);
-    }
 }

@@ -3,14 +3,11 @@ package com.example.bills.models;
 import com.example.bills.dtos.FlatDto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,11 +22,6 @@ public class Flat {
     @NotEmpty(message = "You must supply a flat name")
     private String name;
 
-    @Nullable
-    @OneToMany
-    @JoinColumn(name = "flatmates")
-    private List<Flatmate> flatmateList;
-
     private boolean closed;
 
     public Flat(String name) {
@@ -40,12 +32,6 @@ public class Flat {
     public Flat(FlatDto flatDto) {
         this.name = flatDto.getName();
         this.closed = false;
-    }
-
-    public Flat(String name, List<Flatmate> flatmateList) {
-        this.name = name;
-        this.flatmateList = flatmateList;
-        closed = false;
     }
 
     @Override
@@ -59,16 +45,6 @@ public class Flat {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, closed);
-    }
-
-    // Methods
-    public void addFlatmate(Flatmate flatmate) {
-        if (flatmateList == null) {
-            flatmateList = new ArrayList<>();
-            flatmateList.add(flatmate);
-        } else {
-            flatmateList.add(flatmate);
-        }
     }
 
     public void closeFlat() {
