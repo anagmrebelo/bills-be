@@ -39,8 +39,6 @@ class FlatmateControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private Flat flat;
     private Flatmate flatmateOne;
-    //private Flatmate flatmateTwo;
-
 
     @BeforeEach
     void setUp() {

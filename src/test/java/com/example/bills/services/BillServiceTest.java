@@ -33,8 +33,6 @@ class BillServiceTest {
     @Autowired
     FlatRepository flatRepository;
     @Autowired
-    FlatService flatService;
-    @Autowired
     FlatmateRepository flatmateRepository;
     private Flat flatOne;
     private Flat flatTwo;

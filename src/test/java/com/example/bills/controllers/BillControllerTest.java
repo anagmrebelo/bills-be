@@ -47,8 +47,6 @@ class BillControllerTest {
     @Autowired
     FlatRepository flatRepository;
     @Autowired
-    FlatService flatService;
-    @Autowired
     FlatmateRepository flatmateRepository;
     @Autowired
     AttendanceRepository attendanceRepository;

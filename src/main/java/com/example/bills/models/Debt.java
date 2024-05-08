@@ -27,7 +27,6 @@ public class Debt {
 
     @NonNull
     @ManyToOne
-//    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bill")
     private Bill bill;
 

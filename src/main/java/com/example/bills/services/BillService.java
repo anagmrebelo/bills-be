@@ -110,8 +110,4 @@ public class BillService {
 
         return billRepository.findAllByFlat(flat);
     }
-
-    public Bill getBillById(int id) {
-        return billRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bill not found"));
-    }
 }

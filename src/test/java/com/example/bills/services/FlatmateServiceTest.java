@@ -24,8 +24,6 @@ class FlatmateServiceTest {
     FlatmateRepository flatmateRepository;
     @Autowired
     FlatRepository flatRepository;
-    @Autowired
-    FlatService flatService;
     Flatmate flatmateOne;
     Flatmate flatmateTwo;
     Flat flat;
