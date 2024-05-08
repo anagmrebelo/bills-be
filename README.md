@@ -62,6 +62,8 @@ Here is a general overview of the controllers and routes in this project:
 
 Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` while the server is running
 
+[Postman collection](https://api.postman.com/collections/28881704-002f1009-d7a3-4281-a634-7b2688f36886?access_key=PMAT-01HXD1CXQ7AXJM3BN4PCQZCKZH) for Test Plan
+
 ## Some API Rules
 [TBC]
 
