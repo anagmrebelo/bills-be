@@ -31,6 +31,7 @@ public class FlatmateService {
         Flat flat = flatmateDto.getFlat();
         flatService.getFlat(flat.getId());
 
+        // Only allow to add flatmate when there are no bills allocated to that flat
         validateFlatmateCreation(flat);
 
         Flatmate flatmate = new Flatmate(flatmateDto);

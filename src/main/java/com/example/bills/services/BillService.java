@@ -35,6 +35,7 @@ public class BillService {
         Flat flat = billDto.getFlat();
         flatService.getFlat(flat.getId());
 
+        // Only allow to add bills to non-empty flats and with completed attendances for that month
         validateFlatmatesAttendances(flat, billDto);
 
         Bill createdBill =  switch (billType) {
@@ -64,6 +65,7 @@ public class BillService {
     }
 
     private void addDebts(Bill bill) {
+        // Create the debts only for Flatmates that were present in the flat that month
         List<Attendance> billAttendances = attendanceService.getAttendanceByFlatAndMonth(bill.getFlat().getId(), bill.getMonth().getValue());
         List<Attendance> positiveAttendances = billAttendances.stream().filter(Attendance::getWasPresent).toList();
         BigDecimal amountPerDebt = bill.getAmount().divide(BigDecimal.valueOf(billAttendances.size()), RoundingMode.HALF_UP);
