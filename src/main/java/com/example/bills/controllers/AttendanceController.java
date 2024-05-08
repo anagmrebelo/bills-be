@@ -16,7 +16,7 @@ public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
 
-    @GetMapping("/attendance")
+    @GetMapping("/attendances")
     @ResponseStatus(HttpStatus.OK)
     List<Attendance> getAttendance(@RequestParam(name = "month") Integer monthInt, @RequestParam(name = "flat") Optional<Integer> flatId, @RequestParam(name = "flatmate") Optional<Integer> flatmateId) {
         if (flatId.isPresent()) {
@@ -28,7 +28,7 @@ public class AttendanceController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Need request param flat or flatmate");
     }
 
-    @PostMapping("/attendance")
+    @PostMapping("/attendances")
     @ResponseStatus(HttpStatus.CREATED)
     Attendance addAttendance(@RequestBody @Valid Attendance attendance) {
         return attendanceService.addAttendance(attendance);

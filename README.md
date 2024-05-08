@@ -53,12 +53,13 @@ Here is a general overview of the controllers and routes in this project:
 | `/flatmates/{id}`   | GET         | FlatmateController | `getFlatmate` | Returns a specific flatmate by its ID                                 |
 | `/flatmates`        | POST        | FlatmateController | `createFlatmate` | Creates a new flatmate                                                |
 | `/flatmates/{id}`   | PATCH       | FlatmateController | `updateFlatmate` | Updates a specific flatmate                                           |
-| `/attendance`       | GET         | AttendanceController | `getAllAttendance` | Returns attendances for a flat or flatmate in a specific month        |
-| `/attendance`       | POST        | AttendanceController | `createAttendance` | Creates a new attendance record for a flatmate in a specicif month    |
+| `/attendances`      | GET         | AttendanceController | `getAllAttendance` | Returns attendances for a flat or flatmate in a specific month        |
+| `/attendances`      | POST        | AttendanceController | `createAttendance` | Creates a new attendance record for a flatmate in a specicif month    |
 | `/bills/{flatId}`   | GET         | BillController | `getBill` | Returns all the bills for a specific flat                             |
 | `/bills/{billType}` | POST         | BillController | `updateBill` | Creates a new bill for a flat for a specifi month                     |
 | `/bills/{id}`       | DELETE      | BillController | `deleteBill` | Deletes a specific bill                                               |
 | `/debt`             | GET         | DebtController | `getDebts` | Returns a flatmate list of debts for all bills or for a specific bill |
+
 Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` while the server is running
 
 ## Some API Rules

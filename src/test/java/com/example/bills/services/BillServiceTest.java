@@ -157,7 +157,6 @@ class BillServiceTest {
 
         Flatmate flatmateOne = new Flatmate("Ana", flatTwo);
         flatmateRepository.save(flatmateOne);
-        flatService.addFlatmate(flatTwo, flatmateOne);
 
         assertThrows(ResponseStatusException.class, () -> billService.validateFlatmatesAttendances(flatOne, billDto));
     }

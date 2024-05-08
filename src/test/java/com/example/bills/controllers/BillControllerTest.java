@@ -106,8 +106,6 @@ class BillControllerTest {
         Flatmate flatmateOne = new Flatmate("Ana", flatTwo);
         Flatmate flatmateTwo = new Flatmate("Pedro", flatTwo);
         flatmateRepository.saveAll(List.of(flatmateOne, flatmateTwo));
-        flatService.addFlatmate(flatTwo, flatmateOne);
-        flatService.addFlatmate(flatTwo, flatmateTwo);
 
         Attendance attendanceOne = new Attendance(flatmateOne, month, true);
         attendanceRepository.save(attendanceOne);
@@ -133,9 +131,6 @@ class BillControllerTest {
         Flatmate flatmateTwo = new Flatmate("Pedro", flatTwo);
         Flatmate flatmateThree = new Flatmate("Rita", flatTwo);
         flatmateRepository.saveAll(List.of(flatmateOne, flatmateTwo, flatmateThree));
-        flatService.addFlatmate(flatTwo, flatmateOne);
-        flatService.addFlatmate(flatTwo, flatmateTwo);
-        flatService.addFlatmate(flatTwo, flatmateThree);
 
         Attendance attendanceOne = new Attendance(flatmateOne, month, true);
         attendanceRepository.save(attendanceOne);

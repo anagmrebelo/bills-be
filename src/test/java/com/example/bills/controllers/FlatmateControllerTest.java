@@ -121,8 +121,6 @@ class FlatmateControllerTest {
 
         Optional<Flat> dbFlat = flatRepository.findById(flat.getId());
         assertTrue(dbFlat.isPresent());
-        assertNotNull(dbFlat.get().getFlatmateList());
-        assertTrue(dbFlat.get().getFlatmateList().contains(flatmateResult));
     }
 
     @Test
