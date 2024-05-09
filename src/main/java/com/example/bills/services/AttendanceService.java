@@ -56,9 +56,14 @@ public class AttendanceService {
     }
 
     public Attendance addAttendance(Attendance attendance) {
-        Integer id = attendance.getFlatmate() == null ? null: attendance.getFlatmate().getId();
-        Flatmate flatmate =  flatmateService.getFlatmate(id);
-        attendance.setFlatmate(flatmate);
-        return attendanceRepository.save(attendance);
+        Flatmate flatmate = attendance.getFlatmate();
+        if (flatmate.getId() != null) {
+            Flatmate dbFlatmate =  flatmateService.getFlatmate(flatmate.getId());
+            attendance.setFlatmate(dbFlatmate);
+            return attendanceRepository.save(attendance);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flatmate not found");
+        }
     }
+
 }
