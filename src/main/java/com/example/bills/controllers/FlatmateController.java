@@ -1,6 +1,5 @@
 package com.example.bills.controllers;
 
-import com.example.bills.dtos.FlatmateDto;
 import com.example.bills.dtos.FlatmateNameDto;
 import com.example.bills.models.Flatmate;
 import com.example.bills.services.FlatmateService;
@@ -30,8 +29,8 @@ public class FlatmateController {
 
     @PostMapping("/flatmates")
     @ResponseStatus(HttpStatus.CREATED)
-    Flatmate addFlatmate(@RequestBody @Valid FlatmateDto flatmateDto) {
-        return flatmateService.addFlatmate(flatmateDto);
+    Flatmate addFlatmate(@RequestBody @Valid Flatmate flatmate) {
+        return flatmateService.addFlatmate(flatmate);
     }
 
     @PatchMapping("/flatmates/{id}")

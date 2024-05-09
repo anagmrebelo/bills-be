@@ -1,6 +1,5 @@
 package com.example.bills.services;
 
-import com.example.bills.dtos.FlatmateDto;
 import com.example.bills.dtos.FlatmateNameDto;
 import com.example.bills.models.Flat;
 import com.example.bills.models.Flatmate;
@@ -75,8 +74,8 @@ class FlatmateServiceTest {
 
     @Test
     void addFlatmate() {
-        FlatmateDto flatmateDto = new FlatmateDto("Johana", flat);
-        Flatmate createdFlatmate = flatmateService.addFlatmate(flatmateDto);
+        Flatmate flatmate = new Flatmate("Johana", flat);
+        Flatmate createdFlatmate = flatmateService.addFlatmate(flatmate);
 
         assertEquals("Johana", createdFlatmate.getName());
         assertEquals(flat, createdFlatmate.getFlat());
@@ -85,9 +84,9 @@ class FlatmateServiceTest {
     @Test
     void addFlatmateToFlatWithBills() {
         flat.closeFlat();
-        FlatmateDto flatmateDto = new FlatmateDto("Johana", flat);
+        Flatmate flatmate = new Flatmate("Johana", flat);
 
-        assertThrows(ResponseStatusException.class, () -> flatmateService.addFlatmate(flatmateDto));
+        assertThrows(ResponseStatusException.class, () -> flatmateService.addFlatmate(flatmate));
     }
 
     @Test

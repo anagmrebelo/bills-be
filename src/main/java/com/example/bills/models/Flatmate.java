@@ -1,6 +1,5 @@
 package com.example.bills.models;
 
-import com.example.bills.dtos.FlatmateDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,10 +14,11 @@ import lombok.*;
 public class Flatmate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     @Setter
     @NotEmpty
     private String name;
+    @Setter
     @NotNull
     @ManyToOne
     @JoinColumn(name = "flat")
@@ -28,10 +28,4 @@ public class Flatmate {
         this.name = name;
         this.flat = flat;
     }
-
-    public Flatmate(FlatmateDto flatmateDto) {
-        this.name = flatmateDto.getName();
-        this.flat = flatmateDto.getFlat();
-    }
-
 }

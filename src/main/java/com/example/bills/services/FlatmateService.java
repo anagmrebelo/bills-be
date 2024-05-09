@@ -1,6 +1,5 @@
 package com.example.bills.services;
 
-import com.example.bills.dtos.FlatmateDto;
 import com.example.bills.dtos.FlatmateNameDto;
 import com.example.bills.models.Flat;
 import com.example.bills.models.Flatmate;
@@ -27,13 +26,16 @@ public class FlatmateService {
         return flatmateRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Flatmate not found"));
     }
 
-    public Flatmate addFlatmate(FlatmateDto flatmateDto) {
-        Flat flat = flatmateDto.getFlat();
-        flatService.getFlat(flat.getId());
+    public Flatmate addFlatmate(Flatmate flatmate) {
+        if (flatmate.getId() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot add flatmate id, it is auto generated");
+        }
+
+        Flat flat = flatService.getFlat(flatmate.getFlat().getId());
+        flatmate.setFlat(flat);
 
         validateFlatmateCreation(flat);
 
-        Flatmate flatmate = new Flatmate(flatmateDto);
         return flatmateRepository.save(flatmate);
     }
 
