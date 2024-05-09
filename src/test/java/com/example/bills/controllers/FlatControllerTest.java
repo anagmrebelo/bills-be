@@ -3,7 +3,9 @@ package com.example.bills.controllers;
 import com.example.bills.dtos.FlatDto;
 import com.example.bills.models.Flat;
 import com.example.bills.repositories.FlatRepository;
+import com.example.bills.security.models.User;
 import com.example.bills.security.repositories.UserRepository;
+import com.example.bills.security.services.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -21,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,6 +37,8 @@ class FlatControllerTest {
     FlatRepository flatRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private Flat flatOne;
@@ -41,6 +46,9 @@ class FlatControllerTest {
 
     @BeforeEach
     void setUp() {
+        userService.saveUser(new User(null, "Mike", "mike", "1234", new ArrayList<>(), null));
+        userService.addRoleToUser("mike", "ROLE_ADMIN");
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         flatOne = new Flat("Gran Via");
@@ -105,7 +113,7 @@ class FlatControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "james")
+    @WithMockUser(username = "mike")
     void addFlat() throws Exception {
         FlatDto flatDto = new FlatDto("Born");
         String body = objectMapper.writeValueAsString(flatDto);
