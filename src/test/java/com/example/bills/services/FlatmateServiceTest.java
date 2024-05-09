@@ -84,6 +84,7 @@ class FlatmateServiceTest {
     @Test
     void addFlatmateToFlatWithBills() {
         flat.closeFlat();
+        flatRepository.save(flat);
         Flatmate flatmate = new Flatmate("Johana", flat);
 
         assertThrows(ResponseStatusException.class, () -> flatmateService.addFlatmate(flatmate));

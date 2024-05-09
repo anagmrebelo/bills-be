@@ -22,7 +22,7 @@ public class FlatmateService {
         return flatmateRepository.findAll();
     }
 
-    public Flatmate getFlatmate(int id) {
+    public Flatmate getFlatmate(Integer id) {
         return flatmateRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Flatmate not found"));
     }
 
