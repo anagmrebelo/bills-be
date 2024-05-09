@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Digits;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Month;
@@ -17,6 +18,7 @@ import java.time.Month;
 public class BillDto {
     @Digits(integer = 6, fraction = 2)
     private BigDecimal amount;
+    @Setter
     @NonNull
     @ManyToOne
     @JoinColumn(name = "flat")

@@ -1,6 +1,5 @@
 package com.example.bills.controllers;
 
-import com.example.bills.dtos.FlatmateDto;
 import com.example.bills.dtos.FlatmateNameDto;
 import com.example.bills.models.Flat;
 import com.example.bills.models.Flatmate;
@@ -106,7 +105,7 @@ class FlatmateControllerTest {
     @Test
     void addFlatmate() throws Exception {
         String name = "Aitor";
-        FlatmateDto flatmateDto = new FlatmateDto(name, flat);
+        Flatmate flatmateDto = new Flatmate(name, flat);
         String body = objectMapper.writeValueAsString(flatmateDto);
 
         MvcResult mvcResult = mockMvc.perform(post("/flatmates")

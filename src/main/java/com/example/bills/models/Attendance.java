@@ -17,6 +17,7 @@ public class Attendance {
     @Id
     private int id;
 
+    @Setter
     @ManyToOne
     @NonNull
     @JoinColumn(name = "flatmate")

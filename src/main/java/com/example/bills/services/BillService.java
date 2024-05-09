@@ -33,7 +33,8 @@ public class BillService {
 
     public Bill addBill(String billType, BillDto billDto) {
         Flat flat = billDto.getFlat();
-        flatService.getFlat(flat.getId());
+        flat = flatService.getFlat(flat.getId());
+        billDto.setFlat(flat);
 
         validateFlatmatesAttendances(flat, billDto);
 

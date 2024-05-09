@@ -1,6 +1,5 @@
 package com.example.bills.services;
 
-import com.example.bills.dtos.FlatmateDto;
 import com.example.bills.models.Attendance;
 import com.example.bills.models.Flat;
 import com.example.bills.models.Flatmate;
@@ -38,11 +37,11 @@ class AttendanceServiceTest {
         flat = new Flat("Gran Via");
         flat = flatRepository.save(flat);
 
-        flatmateOne = new Flatmate(new FlatmateDto("Pedro", flat));
+        flatmateOne = new Flatmate("Pedro", flat);
         flatmateOne = flatmateRepository.save(flatmateOne);
         flat = flatRepository.save(flat);
 
-        Flatmate flatmateTwo = new Flatmate(new FlatmateDto("Cris", flat));
+        Flatmate flatmateTwo = new Flatmate("Cris", flat);
         flatmateTwo = flatmateRepository.save(flatmateTwo);
         flat = flatRepository.save(flat);
 
