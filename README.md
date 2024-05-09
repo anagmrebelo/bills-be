@@ -10,7 +10,8 @@ Bills can be added to the flat on a monthly basis. Each bill is then split among
 
 
 ## Class Diagram
-![Screenshot 2024-04-25 at 21.28.25.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2Fvar%2Ffolders%2Fp4%2Fh3zt4zpx5sj581hs8fzy5q540000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_Zx1DMw%2FScreenshot%202024-04-25%20at%2021.28.25.png)
+<img width="1275" alt="Screenshot 2024-05-09 at 22 20 15" src="https://github.com/anagmrebelo/bills-be/assets/66007323/dd668384-6d29-41a4-b97d-0ad8606b64ce">
+
 
 ## Setup
 1. Clone the repository:
