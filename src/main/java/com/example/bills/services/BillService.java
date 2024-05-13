@@ -67,7 +67,7 @@ public class BillService {
     private void addDebts(Bill bill) {
         List<Attendance> billAttendances = attendanceService.getAttendanceByFlatAndMonth(bill.getFlat().getId(), bill.getMonth().getValue());
         List<Attendance> positiveAttendances = billAttendances.stream().filter(Attendance::getWasPresent).toList();
-        BigDecimal amountPerDebt = bill.getAmount().divide(BigDecimal.valueOf(billAttendances.size()), RoundingMode.HALF_UP);
+        BigDecimal amountPerDebt = bill.getAmount().divide(BigDecimal.valueOf(positiveAttendances.size()), RoundingMode.HALF_UP);
 
         for (Attendance attendance : positiveAttendances) {
             Debt debt = new Debt(attendance.getFlatmate(), bill, amountPerDebt);
