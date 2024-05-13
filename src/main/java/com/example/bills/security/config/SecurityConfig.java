@@ -48,6 +48,7 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/api/login/**").permitAll()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers(GET, "/flats").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers(GET, "/flatmates").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers("/error/**").permitAll()
