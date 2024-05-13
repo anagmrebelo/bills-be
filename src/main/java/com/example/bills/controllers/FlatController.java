@@ -23,18 +23,25 @@ public class FlatController {
     @GetMapping("/flats")
     @ResponseStatus(HttpStatus.OK)
     List<Flat> getAllFlats() {
-        return flatService.getAllFlats();
+        User user = fetchUser();
+        return flatService.getAllFlats(user);
     }
 
     @GetMapping("/flats/{id}")
     @ResponseStatus(HttpStatus.OK)
     Flat getFlat(@PathVariable(name = "id") int id) {
-        return flatService.getFlat(id);
+        User user = fetchUser();
+        return flatService.getFlat(id, user);
     }
 
     @PostMapping("/flats")
     @ResponseStatus(HttpStatus.CREATED)
     Flat addFlat(@RequestBody @Valid FlatDto flatDto) {
+        User user = fetchUser();
+        return flatService.addFlat(flatDto, user);
+    }
+
+    User fetchUser() {
         User user = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails userDetails) {
@@ -42,7 +49,6 @@ public class FlatController {
         } else {
             user = userService.getUser((String) principal);
         }
-
-        return flatService.addFlat(flatDto, user);
+        return user;
     }
 }

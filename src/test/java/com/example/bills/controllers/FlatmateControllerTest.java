@@ -5,6 +5,9 @@ import com.example.bills.models.Flat;
 import com.example.bills.models.Flatmate;
 import com.example.bills.repositories.FlatRepository;
 import com.example.bills.repositories.FlatmateRepository;
+import com.example.bills.security.models.User;
+import com.example.bills.security.repositories.UserRepository;
+import com.example.bills.security.services.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -19,6 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,15 +38,20 @@ class FlatmateControllerTest {
     FlatmateRepository flatmateRepository;
     @Autowired
     FlatRepository flatRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    UserService userService;
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private Flat flat;
     private Flatmate flatmateOne;
-    //private Flatmate flatmateTwo;
-
+    private User user;
 
     @BeforeEach
     void setUp() {
+        user = userService.saveUser(new User(null, "Mike", "mike", "1234", new ArrayList<>(), null));
+        userService.addRoleToUser("mike", "ROLE_ADMIN");
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         flat = new Flat("Gran Via");
@@ -54,6 +63,8 @@ class FlatmateControllerTest {
 
     @AfterEach
     void tearDown() {
+        userRepository.deleteAll();
+        userRepository.flush();
         //debtRepository.deleteAll();
         //debtRepository.flush();
         //billRepository.deleteAll();

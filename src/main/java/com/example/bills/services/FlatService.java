@@ -20,8 +20,25 @@ public class FlatService {
     @Autowired
     UserService userService;
 
+    public List<Flat> getAllFlats(User user) {
+        if (user.getRoles().stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"))) {
+            return getAllFlats();
+        }
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only admins can access all flats information");
+    }
+
     public List<Flat> getAllFlats() {
         return flatRepository.findAll();
+    }
+
+    public Flat getFlat(int id, User user) {
+        Flat flat = getFlat(id);
+
+        if (user.getFlat() == null || user.getFlat().getId() != id) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only access to your flat information");
+        }
+
+        return flat;
     }
 
     public Flat getFlat(int id) {
