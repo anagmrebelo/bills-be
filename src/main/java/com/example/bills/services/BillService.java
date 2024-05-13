@@ -7,6 +7,7 @@ import com.example.bills.models.Flat;
 import com.example.bills.models.Flatmate;
 import com.example.bills.models.bill.*;
 import com.example.bills.repositories.bill.*;
+import com.example.bills.security.models.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,14 @@ public class BillService {
     DebtService debtService;
     @Autowired
     AttendanceService attendanceService;
+
+    public Bill addBill(String billType, BillDto billDto, User user) {
+        if (user.getFlat() == null || user.getFlat().getId() != billDto.getFlat().getId()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only post bills to your flat");
+        }
+
+        return addBill(billType, billDto);
+    }
 
     public Bill addBill(String billType, BillDto billDto) {
         Flat flat = billDto.getFlat();
@@ -96,6 +105,14 @@ public class BillService {
     }
 
     @Transactional
+    public void deleteBill(int id, User user) {
+        if (user.getFlat() == null || user.getFlat().getId() != getBillById(id).getFlat().getId()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only delete bills from your flat");
+        }
+        deleteBill(id);
+    }
+
+    @Transactional
     public void deleteBill(int id) {
         Optional<Bill> bill = billRepository.findById(id);
         if (bill.isPresent()) {
@@ -104,6 +121,16 @@ public class BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Id not valid");
         }
+    }
+
+    public List<Bill> getBillsByFlat(int flatId, User user) {
+       List<Bill> bills = getBillsByFlat(flatId);
+
+        if (user.getFlat() == null || user.getFlat().getId() != flatId) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only access to your flat information");
+        }
+
+       return bills;
     }
 
     public List<Bill> getBillsByFlat(int flatId) {

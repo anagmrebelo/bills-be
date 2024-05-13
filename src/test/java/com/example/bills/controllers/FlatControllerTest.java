@@ -47,13 +47,13 @@ class FlatControllerTest {
 
     @BeforeEach
     void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
         user = userService.saveUser(new User(null, "Mike", "mike", "1234", new ArrayList<>(), null));
         userService.addRoleToUser("mike", "ROLE_ADMIN");
 
         userService.saveUser(new User(null, "Marc", "marc", "1234", new ArrayList<>(), null));
         userService.addRoleToUser("mike", "ROLE_USER");
-
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         flatOne = new Flat("Gran Via");
         flatTwo = new Flat("Sagrada");

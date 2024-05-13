@@ -24,7 +24,7 @@ public class FlatService {
         if (user.getRoles().stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"))) {
             return getAllFlats();
         }
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only admins can access all flats information");
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only admins can access all flat information");
     }
 
     public List<Flat> getAllFlats() {
