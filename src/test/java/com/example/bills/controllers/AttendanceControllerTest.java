@@ -104,9 +104,10 @@ class AttendanceControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "mike")
     void getAttendanceByFlatmateInvalidFlatmate() throws Exception {
-        int invalidFlatmateId = 100;
-        MvcResult mvcResult = mockMvc.perform(get("/attendance")
+        int invalidFlatmateId = 1000;
+        mockMvc.perform(get("/attendance")
                 .param("month", "1")
                 .param("flatmate", String.valueOf(invalidFlatmateId)))
                 .andExpect(status().isNotFound())
