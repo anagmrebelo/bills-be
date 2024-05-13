@@ -99,7 +99,7 @@ class FlatControllerTest {
 
     @Test
     @WithMockUser(username = "marc")
-    void getAllFlatsNotAllowedUser() throws Exception {
+    void getAllFlatsForbiddenUser() throws Exception {
         mockMvc.perform(get("/flats"))
                 .andExpect(status().isForbidden())
                 .andReturn();
@@ -122,11 +122,8 @@ class FlatControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "mike")
+    @WithMockUser(username = "marc")
     void getExistentFlatNotAllowedUser() throws Exception {
-        user.setFlat(null);
-        userRepository.save(user);
-
         mockMvc.perform(get("/flats/" + flatOne.getId()))
                 .andExpect(status().isForbidden())
                 .andReturn();
@@ -141,11 +138,8 @@ class FlatControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "mike")
+    @WithMockUser(username = "marc")
     void addFlatEmptyUser() throws Exception {
-        user.setFlat(null);
-        userRepository.save(user);
-
         FlatDto flatDto = new FlatDto("Born");
         String body = objectMapper.writeValueAsString(flatDto);
 
