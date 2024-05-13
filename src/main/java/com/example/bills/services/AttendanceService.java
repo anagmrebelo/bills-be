@@ -4,6 +4,7 @@ import com.example.bills.models.Attendance;
 import com.example.bills.models.Flat;
 import com.example.bills.models.Flatmate;
 import com.example.bills.repositories.AttendanceRepository;
+import com.example.bills.security.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,16 @@ public class AttendanceService {
     @Autowired
     FlatService flatService;
 
+    public List<Attendance> getAttendanceByFlatmateAndMonth(Integer flatmateId, Integer monthInt, User user) {
+        List<Attendance> attendances = getAttendanceByFlatmateAndMonth(flatmateId, monthInt);
+
+        if (user.getFlat() == null || user.getFlat().getId() != flatmateService.getFlatmate(flatmateId).getFlat().getId()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only access to your flat information");
+        }
+
+        return attendances;
+    }
+
     public List<Attendance> getAttendanceByFlatmateAndMonth(Integer flatmateId, Integer monthInt) {
         if (monthInt < 1 || monthInt > 12) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid month");
@@ -34,6 +45,16 @@ public class AttendanceService {
 
         Optional<Attendance> attendance = attendanceRepository.findByMonthAndFlatmate(month, flatmate);
         return attendance.map(List::of).orElseGet(ArrayList::new);
+    }
+
+    public List<Attendance> getAttendanceByFlatAndMonth(Integer flatId, Integer monthInt, User user) {
+        List<Attendance> attendances = getAttendanceByFlatAndMonth(flatId, monthInt);
+
+        if (user.getFlat() == null || user.getFlat().getId() != flatId) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only post attendances to your flat");
+        }
+
+        return attendances;
     }
 
     public List<Attendance> getAttendanceByFlatAndMonth(Integer flatId, Integer monthInt) {
@@ -55,6 +76,14 @@ public class AttendanceService {
         return attendances;
     }
 
+    public Attendance addAttendance(Attendance attendance, User user) {
+        if (user.getFlat() == null || user.getFlat().getId() != attendance.getFlatmate().getFlat().getId()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only access to your flat information");
+        }
+
+        return addAttendance(attendance);
+    }
+
     public Attendance addAttendance(Attendance attendance) {
         Flatmate flatmate = attendance.getFlatmate();
         if (flatmate.getId() != null) {
@@ -65,5 +94,4 @@ public class AttendanceService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flatmate not found");
         }
     }
-
 }
