@@ -43,18 +43,24 @@ class FlatControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private Flat flatOne;
     private Flat flatTwo;
+    private User user;
 
     @BeforeEach
     void setUp() {
-        userService.saveUser(new User(null, "Mike", "mike", "1234", new ArrayList<>(), null));
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+        user = userService.saveUser(new User(null, "Mike", "mike", "1234", new ArrayList<>(), null));
         userService.addRoleToUser("mike", "ROLE_ADMIN");
 
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        userService.saveUser(new User(null, "Marc", "marc", "1234", new ArrayList<>(), null));
+        userService.addRoleToUser("mike", "ROLE_USER");
 
         flatOne = new Flat("Gran Via");
         flatTwo = new Flat("Sagrada");
 
         flatRepository.saveAll(List.of(flatOne, flatTwo));
+        user.setFlat(flatOne);
+        userRepository.save(user);
     }
 
     @AfterEach
@@ -74,6 +80,7 @@ class FlatControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "mike")
     void getAllFlats() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/flats"))
                 .andExpect(status().isOk())
@@ -91,6 +98,15 @@ class FlatControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "marc")
+    void getAllFlatsForbiddenUser() throws Exception {
+        mockMvc.perform(get("/flats"))
+                .andExpect(status().isForbidden())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "mike")
     void getExistentFlat() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/flats/" + flatOne.getId()))
                 .andExpect(status().isOk())
@@ -106,6 +122,15 @@ class FlatControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "marc")
+    void getExistentFlatNotAllowedUser() throws Exception {
+        mockMvc.perform(get("/flats/" + flatOne.getId()))
+                .andExpect(status().isForbidden())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "mike")
     void getNonExistentFlat() throws Exception {
         mockMvc.perform(get("/flats/" + 100))
                 .andExpect(status().isNotFound())
@@ -113,8 +138,8 @@ class FlatControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "mike")
-    void addFlat() throws Exception {
+    @WithMockUser(username = "marc")
+    void addFlatEmptyUser() throws Exception {
         FlatDto flatDto = new FlatDto("Born");
         String body = objectMapper.writeValueAsString(flatDto);
 
@@ -127,5 +152,18 @@ class FlatControllerTest {
         Flat createdFlat = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),Flat.class);
 
         assertEquals(createdFlat.getName(), flatDto.getName());
+    }
+
+    @Test
+    @WithMockUser(username = "mike")
+    void addFlatFullUser() throws Exception {
+        FlatDto flatDto = new FlatDto("Born");
+        String body = objectMapper.writeValueAsString(flatDto);
+
+        mockMvc.perform(post("/flats")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
     }
 }

@@ -12,6 +12,9 @@ import com.example.bills.repositories.DebtRepository;
 import com.example.bills.repositories.FlatRepository;
 import com.example.bills.repositories.FlatmateRepository;
 import com.example.bills.repositories.bill.BillRepository;
+import com.example.bills.security.models.User;
+import com.example.bills.security.repositories.UserRepository;
+import com.example.bills.security.services.UserService;
 import com.example.bills.services.FlatService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -28,6 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,32 +52,49 @@ class BillControllerTest {
     @Autowired
     FlatRepository flatRepository;
     @Autowired
-    FlatService flatService;
-    @Autowired
     FlatmateRepository flatmateRepository;
     @Autowired
     AttendanceRepository attendanceRepository;
     @Autowired
     DebtRepository debtRepository;
+    @Autowired
+    UserService userService;
+    @Autowired
+    UserRepository userRepository;
     private Flat flatOne;
     private Flat flatTwo;
     private Bill billOne;
     private Bill billTwo;
+    private Bill billThree;
+    private User user;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+        user = userService.saveUser(new User(null, "Mike", "mike", "1234", new ArrayList<>(), null));
+        userService.addRoleToUser("mike", "ROLE_ADMIN");
+
+        userService.saveUser(new User(null, "Marc", "marc", "1234", new ArrayList<>(), null));
+        userService.addRoleToUser("mike", "ROLE_USER");
+
         flatOne = new Flat("Gran Via");
         flatTwo = new Flat("Sagrada");
         flatRepository.saveAll(List.of(flatOne, flatTwo));
+
         billOne = new WaterBill(new BillDto(new BigDecimal("10.23"), flatOne, Month.JANUARY));
         billTwo = new ElectricityBill(new BillDto(new BigDecimal("15.23"), flatOne, Month.JANUARY));
-        Bill billThree = new WaterBill(new BillDto(new BigDecimal("50.23"), flatTwo, Month.FEBRUARY));
+        billThree = new WaterBill(new BillDto(new BigDecimal("50.23"), flatTwo, Month.FEBRUARY));
         billRepository.saveAll(List.of(billOne, billTwo, billThree));
+
+        user.setFlat(flatTwo);
+        userRepository.save(user);
     }
 
     @AfterEach
     void tearDown() {
+        userRepository.deleteAll();
+        userRepository.flush();
         debtRepository.deleteAll();
         debtRepository.flush();
         billRepository.deleteAll();
@@ -86,6 +108,7 @@ class BillControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "mike")
     void addBillToEmptyFlat() throws Exception {
         Month month =  Month.MARCH;
         BigDecimal bigDecimal = new BigDecimal("100.23");
@@ -100,6 +123,7 @@ class BillControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "mike")
     void addBillToIncompleteAttendances() throws Exception {
         Month month =  Month.MARCH;
 
@@ -121,9 +145,8 @@ class BillControllerTest {
                 .andReturn();
     }
 
-
-
     @Test
+    @WithMockUser(username = "mike")
     void addBill() throws Exception {
         Month month =  Month.MARCH;
 
@@ -159,23 +182,62 @@ class BillControllerTest {
     }
 
     @Test
-    void deleteInvalidBill() throws Exception {
-        int invalidBillId = 100;
-        MvcResult mvcResult = mockMvc.perform(delete("/bills/" + invalidBillId))
-                .andExpect(status().isNoContent())
+    @WithMockUser(username = "marc")
+    void addBillForbiddenUser() throws Exception {
+        Month month =  Month.MARCH;
+
+        Flatmate flatmateOne = new Flatmate("Ana", flatTwo);
+        Flatmate flatmateTwo = new Flatmate("Pedro", flatTwo);
+        Flatmate flatmateThree = new Flatmate("Rita", flatTwo);
+        flatmateRepository.saveAll(List.of(flatmateOne, flatmateTwo, flatmateThree));
+
+        Attendance attendanceOne = new Attendance(flatmateOne, month, true);
+        attendanceRepository.save(attendanceOne);
+        Attendance attendanceTwo = new Attendance(flatmateTwo, month, true);
+        attendanceRepository.save(attendanceTwo);
+        Attendance attendanceThree = new Attendance(flatmateThree, month, false);
+        attendanceRepository.save(attendanceThree);
+
+        BigDecimal bigDecimal = new BigDecimal("100.23");
+        BillDto billDto = new BillDto(bigDecimal, flatTwo, month);
+
+        String body = objectMapper.writeValueAsString(billDto);
+        mockMvc.perform(post("/bills/water")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
                 .andReturn();
     }
 
     @Test
+    @WithMockUser(username = "mike")
+    void deleteInvalidBill() throws Exception {
+        int invalidBillId = 1000;
+        mockMvc.perform(delete("/bills/" + invalidBillId))
+                .andExpect(status().isNotFound())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "mike")
     void deleteBill() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(delete("/bills/" + billOne.getId()))
+        MvcResult mvcResult = mockMvc.perform(delete("/bills/" + billThree.getId()))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertFalse(billRepository.findById(billOne.getId()).isPresent());
+        assertFalse(billRepository.findById(billThree.getId()).isPresent());
     }
 
     @Test
+    @WithMockUser(username = "mike")
+    void deleteBillForbiddenUser() throws Exception {
+        mockMvc.perform(delete("/bills/" + billOne.getId()))
+                .andExpect(status().isForbidden())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "mike")
     void getBillsByInvalidFlat() throws Exception {
         int invalidFlatId = 100;
         MvcResult mvcResult = mockMvc.perform(get("/debts/" + invalidFlatId))
@@ -184,7 +246,10 @@ class BillControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "mike")
     void getBillsByFlat() throws Exception {
+        user.setFlat(flatOne);
+        userRepository.save(user);
         MvcResult mvcResult = mockMvc.perform(get("/bills/"+ flatOne.getId()))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -193,5 +258,13 @@ class BillControllerTest {
         assertEquals(2, bills.size());
         assertTrue(bills.contains(billOne));
         assertTrue(bills.contains(billTwo));
+    }
+
+    @Test
+    @WithMockUser(username = "mike")
+    void getBillsByFlatForbiddenUser() throws Exception {
+         mockMvc.perform(get("/bills/"+ flatOne.getId()))
+                .andExpect(status().isForbidden())
+                .andReturn();
     }
 }

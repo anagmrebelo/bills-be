@@ -8,6 +8,9 @@ import com.example.bills.repositories.bill.BillRepository;
 import com.example.bills.repositories.DebtRepository;
 import com.example.bills.repositories.FlatRepository;
 import com.example.bills.repositories.FlatmateRepository;
+import com.example.bills.security.models.User;
+import com.example.bills.security.repositories.UserRepository;
+import com.example.bills.security.services.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -22,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -42,16 +47,28 @@ class DebtControllerTest {
     FlatmateRepository flatmateRepository;
     @Autowired
     BillRepository billRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    UserService userService;
     private Debt debtOne;
     private Debt debtTwo;
     private Flatmate flatmate;
     private Bill billOne;
-    private Flat flat;
+    private User user;
+
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        flat = new Flat("Gran Via");
+
+        user = userService.saveUser(new User(null, "Mike", "mike", "1234", new ArrayList<>(), null));
+        userService.addRoleToUser("mike", "ROLE_ADMIN");
+
+        userService.saveUser(new User(null, "Marc", "marc", "1234", new ArrayList<>(), null));
+        userService.addRoleToUser("mike", "ROLE_USER");
+
+        Flat flat = new Flat("Gran Via");
         flat = flatRepository.save(flat);
         flatmate = new Flatmate("Rita", flat);
         flatmate = flatmateRepository.save(flatmate);
@@ -67,10 +84,15 @@ class DebtControllerTest {
 
         debtTwo = new Debt(flatmate, billTwo, new BigDecimal("15.00"));
         debtTwo = debtRepository.save(debtTwo);
+
+        user.setFlat(flat);
+        userRepository.save(user);
     }
 
     @AfterEach
     void tearDown() {
+        userRepository.deleteAll();
+        userRepository.flush();
         debtRepository.deleteAll();
         debtRepository.flush();
         billRepository.deleteAll();
@@ -84,6 +106,7 @@ class DebtControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "mike")
     void getDebtByInvalidBillAndFlatmate() throws Exception {
         int invalidBillId = 100;
         MvcResult mvcResult = mockMvc.perform(get("/debts")
@@ -92,7 +115,9 @@ class DebtControllerTest {
                 .andExpect(status().isNotFound())
                 .andReturn();
     }
+
     @Test
+    @WithMockUser(username = "mike")
     void getDebtByBillAndInvalidFlatmate() throws Exception {
         int invalidFlatmateId = 100;
         MvcResult mvcResult = mockMvc.perform(get("/debts")
@@ -102,6 +127,7 @@ class DebtControllerTest {
                 .andReturn();
     }
     @Test
+    @WithMockUser(username = "mike")
     void getDebtByBillAndFlatmate() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/debts")
                         .param("flatmate", String.valueOf(flatmate.getId()))
@@ -113,7 +139,19 @@ class DebtControllerTest {
         assertEquals(1, debts.size());
         assertTrue(debts.contains(debtOne));
     }
+
     @Test
+    @WithMockUser(username = "marc")
+    void getDebtByBillAndFlatmateForbiddenUser() throws Exception {
+        mockMvc.perform(get("/debts")
+                        .param("flatmate", String.valueOf(flatmate.getId()))
+                        .param("bill", String.valueOf(billOne.getId())))
+                .andExpect(status().isForbidden())
+                .andReturn();
+    }
+
+    @Test
+    @WithMockUser(username = "mike")
     void getDebtByInvalidFlatmate() throws Exception {
         int invalidFlatmateId = 100;
         MvcResult mvcResult = mockMvc.perform(get("/debts")
@@ -121,7 +159,9 @@ class DebtControllerTest {
                 .andExpect(status().isNotFound())
                 .andReturn();
     }
+
     @Test
+    @WithMockUser(username = "mike")
     void getDebtByFlatmate() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/debts")
                         .param("flatmate", String.valueOf(flatmate.getId())))
@@ -132,5 +172,14 @@ class DebtControllerTest {
         assertEquals(2, debts.size());
         assertTrue(debts.contains(debtOne));
         assertTrue(debts.contains(debtTwo));
+    }
+
+    @Test
+    @WithMockUser(username = "marc")
+    void getDebtByFlatmateForbiddenUser() throws Exception {
+        mockMvc.perform(get("/debts")
+                        .param("flatmate", String.valueOf(flatmate.getId())))
+                .andExpect(status().isForbidden())
+                .andReturn();
     }
 }

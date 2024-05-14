@@ -76,7 +76,8 @@ class FlatServiceTest {
 
     @Test
     void getInValidFlat() {
-        assertThrows(ResponseStatusException.class, () -> flatService.getFlat(100));
+        int invalidFlatId = 1000;
+        assertThrows(ResponseStatusException.class, () -> flatService.getFlat(invalidFlatId));
     }
 
     @Test
