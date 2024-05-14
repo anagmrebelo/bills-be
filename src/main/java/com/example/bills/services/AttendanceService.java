@@ -77,7 +77,9 @@ public class AttendanceService {
     }
 
     public Attendance addAttendance(Attendance attendance, User user) {
-        if (user.getFlat() == null || user.getFlat().getId() != attendance.getFlatmate().getFlat().getId()) {
+        Flatmate flatmate = flatmateService.getFlatmate(attendance.getFlatmate().getId());
+
+        if (user.getFlat() == null || user.getFlat().getId() != flatmate.getFlat().getId()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only access to your flat information");
         }
 
