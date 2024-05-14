@@ -72,13 +72,12 @@ public class FlatmateService {
     }
 
     public Flatmate patchFlatmate(int id, FlatmateNameDto flatmateNameDto, User user) {
-        Flatmate flatmate = patchFlatmate(id, flatmateNameDto);
-
-        if (user.getFlat() == null || user.getFlat().getId() != id) {
+        Flatmate flatmate = getFlatmate(id);
+        if (user.getFlat() == null || user.getFlat().getId() != flatmate.getFlat().getId()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only access to your flat information");
         }
 
-        return flatmate;
+        return patchFlatmate(id, flatmateNameDto);
     }
 
     public Flatmate patchFlatmate(int id, FlatmateNameDto flatmateNameDto) {
