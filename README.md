@@ -64,7 +64,8 @@ Here is a general overview of the controllers and routes in this project:
 Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` while the server is running
 
 ## Some API Rules
-[TBC]
+- Only Admin User can GET all Flats or Flatmates 
+- Only Users that belong to a Flat can GET/POST/PATCH/DELETE flat, flatmates, attendances, bills, debts of that flat
 
 ## Extra links
 - [Project Board](https://www.baeldung.com/spring-rest-openapi-documentation)
