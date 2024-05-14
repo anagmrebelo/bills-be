@@ -66,6 +66,9 @@ Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` wh
 ## Some API Rules
 - Only Admin User can GET all Flats or Flatmates 
 - Only Users that belong to a Flat can GET/POST/PATCH/DELETE flat, flatmates, attendances, bills, debts of that flat
+- A Bill can only be added if all Flatmates have Attendances for that month
+- A Flat is closed after one bill is added and no more Flatmates can be added after that
+- One User can only participate in one Flat
 
 ## Extra links
 - [Project Board](https://www.baeldung.com/spring-rest-openapi-documentation)
